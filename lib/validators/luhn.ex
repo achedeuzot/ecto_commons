@@ -6,17 +6,17 @@ defmodule EctoCommons.LuhnValidator do
 
   ## Example:
 
-      iex> types = %{admin_id: :string}
-      iex> params = %{admin_id: "940008659"}
+      iex> types = %{admin_code: :string}
+      iex> params = %{admin_code: "740123450"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
-      ...> |> validate_luhn(:admin_id)
-      #Ecto.Changeset<action: nil, changes: %{admin_id: "940008659"}, errors: [], data: %{}, valid?: true>
+      ...> |> validate_luhn(:admin_code)
+      #Ecto.Changeset<action: nil, changes: %{admin_code: "740123450"}, errors: [], data: %{}, valid?: true>
 
       iex> types = %{admin_id: :string}
-      iex> params = %{admin_id: "79026515100052"}
+      iex> params = %{admin_id: "74012345123456"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_luhn(:admin_id)
-      #Ecto.Changeset<action: nil, changes: %{admin_id: "79026515100052"}, errors: [admin_id: {"is not a valid code", [validation: :luhn]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{admin_id: "74012345123456"}, errors: [admin_id: {"is not a valid code", [validation: :luhn]}], data: %{}, valid?: false>
 
       iex> types = %{admin_id: :string}
       iex> params = %{admin_id: "this is an incorrect value"}

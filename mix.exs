@@ -1,7 +1,7 @@
 defmodule EctoCommons.MixProject do
   use Mix.Project
 
-  @version "0.1.0"
+  @version "0.2.0"
 
   def project do
     [
@@ -71,7 +71,11 @@ defmodule EctoCommons.MixProject do
 
       # Lint:
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
-      {:credo_contrib, "~> 0.2.0", only: [:dev, :test], runtime: false}
+      {:credo_contrib, "~> 0.2.0", only: [:dev, :test], runtime: false},
+
+      # Mix tasks
+      {:finch, "~> 0.3", optional: true, runtime: false},
+      {:jason, "~> 1.2", optional: true}
     ]
   end
 

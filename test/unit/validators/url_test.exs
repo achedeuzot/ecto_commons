@@ -1,5 +1,5 @@
 defmodule EctoCommons.URLValidatorTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case, async: true
 
   doctest EctoCommons.URLValidator, import: true
   alias EctoCommons.URLValidator
@@ -74,39 +74,40 @@ defmodule EctoCommons.URLValidatorTest do
     {"://", []},
     {"ftps://foo.bar/", []},
 
-    # Add additional check with regexp
-    {"http://.", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://..", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://../", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://?", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://??", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://??/", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://#", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://##", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://##/", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
+    # Add additional check with http_regexp
+    {"http://.", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://..", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://../", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://?", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://??", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://??/", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://#", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://##", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://##/", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
     {"http://foo.bar?q=Spaces should be encoded",
-     [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http:// shouldfail.com", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://foo.bar/foo(bar)baz quux", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://a.b--c.de/", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://-a.b.co", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://a.b-.co", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://.www.foo.bar/", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://www.foo.bar./", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://.www.foo.bar./", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://-error-.invalid/", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    # Invalid IPs catched by regexp
-    {"http://0.0.0.0", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://10.1.1.0", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://10.1.1.255", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://224.1.1.1", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://1.1.1.1.1", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://123.123.123", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://3628126748", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://10.1.1.1", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
-    {"http://10.1.1.254", [checks: [:parsable, :empty, :scheme, :host, :regexp]]},
+     [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http:// shouldfail.com", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://foo.bar/foo(bar)baz quux",
+     [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://a.b--c.de/", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://-a.b.co", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://a.b-.co", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://.www.foo.bar/", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://www.foo.bar./", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://.www.foo.bar./", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://-error-.invalid/", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    # Invalid IPs catched by http_regexp
+    {"http://0.0.0.0", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://10.1.1.0", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://10.1.1.255", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://224.1.1.1", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://1.1.1.1.1", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://123.123.123", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://3628126748", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://10.1.1.1", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
+    {"http://10.1.1.254", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
 
-    # Add host checking (does a web request)
+    # Add host checking (does an HTTP request)
     {"http://completely-unknown.example.com/",
      [checks: [:parsable, :empty, :scheme, :host, :valid_host]]}
   ]

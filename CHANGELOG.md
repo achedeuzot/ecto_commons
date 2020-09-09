@@ -2,6 +2,17 @@
 
 ## Upcoming
 
+## Version 0.2.0
+- Ecto Validators:
+  - `validate_email`: Improved email validation options and better documentation
+    about what to expect.
+  - `validate_url`: Improved documentation about what is supported.
+  - `validate_postal_code`: Added support for all countries. Still only a sanity
+     check. There is no full databases of all postal codes packages into this lib ;)
+- Ecto Helpers:
+  - `validate_many`: adds validation for multiple fields with the same
+    validation function.
+
 ## Version 0.1.0
  - Ecto Validators:
    - `validate_date`: validates `Date` (equality, after, before)

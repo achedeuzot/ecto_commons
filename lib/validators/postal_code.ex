@@ -1,14 +1,10 @@
 defmodule EctoCommons.PostalCodeValidator do
   @moduledoc """
-  Valide the postal code within a country context.
+  Validate the postal code within a country context.
 
-  For now, only a few countries are supported:
-    - France
-    - Belgium
-    - Italy
-    - Spain
-    - Switzerland
-    - United Kingdom
+  This validator will only validate the postal code against known
+  regex formats for a given country, it won't match the postal
+  code to an actual database of all available postal codes in each country.
 
   ## Examples
 
@@ -45,14 +41,10 @@ defmodule EctoCommons.PostalCodeValidator do
 
   import Ecto.Changeset
 
-  # https://rgxdb.com/r/3B1KKRYC
-  @fr_regexp ~r/^([0-8]\d|9[0-8])[ ]?\d{3}$/
-  @be_regexp ~r/^(([1-9])(\d{3}))$/
-  @it_regexp ~r/^\d{5}$/
-  @es_regexp ~r/^(0[1-9]|[1-4]\d|5[0-2])\d{3}$/
-  @ch_regexp ~r/^[1-9]\d{3}$/
-  # credo:disable-for-next-line Credo.Check.Readability.MaxLineLength
-  @gb_regexp ~r/^GIR[ ]?0AA|((AB|AL|B|BA|BB|BD|BH|BL|BN|BR|BS|BT|CA|CB|CF|CH|CM|CO|CR|CT|CV|CW|DA|DD|DE|DG|DH|DL|DN|DT|DY|E|EC|EH|EN|EX|FK|FY|G|GL|GY|GU|HA|HD|HG|HP|HR|HS|HU|HX|IG|IM|IP|IV|JE|KA|KT|KW|KY|L|LA|LD|LE|LL|LN|LS|LU|M|ME|MK|ML|N|NE|NG|NN|NP|NR|NW|OL|OX|PA|PE|PH|PL|PO|PR|RG|RH|RM|S|SA|SE|SG|SK|SL|SM|SN|SO|SP|SR|SS|ST|SW|SY|TA|TD|TF|TN|TQ|TR|TS|TW|UB|W|WA|WC|WD|WF|WN|WR|WS|WV|YO|ZE)(\d[\dA-Z]?[ ]?\d[ABD-HJLN-UW-Z]{2}))|BFPO[ ]?\d{1,4}$/
+  @postal_codes_data Path.absname("priv/data/postal_codes.csv")
+                     |> Path.absname()
+                     |> File.read!()
+                     |> String.split("\n", trim: true)
 
   def validate_postal_code(changeset, field, opts \\ []) do
     validate_change(changeset, field, {:postal_code, opts}, fn _, value ->
@@ -69,14 +61,14 @@ defmodule EctoCommons.PostalCodeValidator do
     end)
   end
 
-  # TODO: Add more countries regexp to match common use. We could directly import a CSV
-  # file containing country code + regexp to use
-  defp get_regexp("fr"), do: @fr_regexp
-  defp get_regexp("be"), do: @be_regexp
-  defp get_regexp("ch"), do: @ch_regexp
-  defp get_regexp("it"), do: @it_regexp
-  defp get_regexp("es"), do: @es_regexp
-  defp get_regexp("gb"), do: @gb_regexp
+  @postal_codes_data
+  |> Enum.each(fn country_data ->
+    [isoalpha2, regex] = String.split(country_data, ";", parts: 2)
+    argument = String.downcase(isoalpha2)
+    {:ok, regex} = Regex.compile("^" <> regex <> "$")
+
+    def get_regexp(unquote(argument)), do: unquote(Macro.escape(regex))
+  end)
 
   defp message(opts, key \\ :message, default) do
     Keyword.get(opts, key, default)
