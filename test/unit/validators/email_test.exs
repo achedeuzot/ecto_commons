@@ -43,7 +43,7 @@ defmodule EctoCommons.EmailValidatorTest do
     "i_like_underscore@but_its_not_allow_in_this_part.example.com",
     "some.user@.example.",
     "john..doe@example.com",
-    #    "john.doe@#{String.duplicate("x", 256)}",
+    # "john.doe@#{String.duplicate("x", 256)}", this doesn't work with the test name interpolation: SystemLimitError
     "john.doe@-example.com",
     "john.doe@example-",
     "john.doe@invaliddomain$"

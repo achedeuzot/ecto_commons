@@ -41,6 +41,10 @@ defmodule EctoCommons.PostalCodeValidator do
 
   import Ecto.Changeset
 
+  # Postal codes were fetched once from http://i18napis.appspot.com/address
+  # which is recommended by the Unicode folks. The unicode database of regexes for
+  # countries was not maintained anymore. The following regexes were then
+  # improved upon to be more restrictive: FR, IT, BE, ES
   @postal_codes_data Path.absname("priv/data/postal_codes.csv")
                      |> Path.absname()
                      |> File.read!()
