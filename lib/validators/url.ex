@@ -3,16 +3,18 @@ defmodule EctoCommons.URLValidator do
   This validator is used to validate URLs.
 
   ## Options
-  There are some available options depending on the strictness of what you want to validate:
+  There are some available `:checks` depending on the strictness of what you want to validate:
 
     - `:parsable`: Checks to see if the URL is parsable by `:http_uri.parse/1` Erlang function.
        This can have issues with international URLs where it should be disabled (see tests). Defaults to enabled
     - `:empty`: Checks to see if the parsed `%URI{}` struct is not empty (all fields set to nil). Defaults to enabled
     - `:scheme`: Checks to see if the parsed `%URI{}` struct contains a `:scheme`. Defaults to enabled
     - `:host`: Checks to see if the parsed `%URI{}` struct contains a `:host`. Defaults to enabled
-    - `:valid_host`: Does a `:inet.getbyhostname/1` call to check if the host exists. Defaults to disabled
+    - `:valid_host`: Does a `:inet.getbyhostname/1` call to check if the host exists. This will do a network call.
+       Defaults to disabled
     - `:path`: Checks to see if the parsed `%URI{}` struct contains a `:path`. Defaults to disabled
-    - `:regexp`: Tries to match URL to a regexp known to catch many unwanted URLs (see below). Defaults to disabled
+    - `:http_regexp`: Tries to match URL to a regexp known to catch many unwanted URLs (see code). It only accepts
+       HTTP(S) and FTP schemes though. Defaults to disabled
 
   The approach is not yet very satisfactory IMHO, if you have suggestions, Pull Requests are welcome :)
 
@@ -48,7 +50,7 @@ defmodule EctoCommons.URLValidator do
 
   # Taken from here https://mathiasbynens.be/demo/url-regex
   # credo:disable-for-next-line Credo.Check.Readability.MaxLineLength
-  @url_regex ~r/^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)(?:\.(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)*(?:\.(?:[a-z\x{00a1}-\x{ffff}]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/ius
+  @http_regex ~r/^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)(?:\.(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)*(?:\.(?:[a-z\x{00a1}-\x{ffff}]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/ius
 
   def validate_url(changeset, field, opts \\ []) do
     validate_change(changeset, field, {:url, opts}, fn _, value ->
@@ -75,8 +77,8 @@ defmodule EctoCommons.URLValidator do
     end
   end
 
-  defp do_validate_url(value, _parsed, :regexp) do
-    case String.match?(value, @url_regex) do
+  defp do_validate_url(value, _parsed, :http_regexp) do
+    case String.match?(value, @http_regex) do
       true -> :ok
       false -> :error
     end
