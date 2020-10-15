@@ -25,3 +25,5 @@ ecto_commons-*.tar
 # Ignore dializer files
 /priv/plts
 
+# Editor and other IDE stuff
+*.code-workspace
