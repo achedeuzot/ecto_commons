@@ -30,7 +30,7 @@ defmodule EctoCommons.MixProject do
 
       # Type checking
       dialyzer: [
-        plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
+        plt_core_path: "_build/#{Mix.env()}"
       ]
     ]
   end
