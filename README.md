@@ -1,6 +1,6 @@
 # EctoCommons
 
-[![Build Status](https://github.com/achedeuzot/ecto_commons/workflows/tests/badge.svg?branch=master)](https://github.com/achedeuzot/ecto_commons/actions?query=workflow%3Atests+branch%3Amaster) [![Coverage Status](https://coveralls.io/repos/github/achedeuzot/ecto_commons/badge.svg?branch=master)](https://coveralls.io/github/achedeuzot/ecto_commons?branch=master) [![Hex Version](https://img.shields.io/hexpm/v/ecto_commons.svg)](https://hex.pm/packages/ecto_commons) [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+[![Build Status](https://github.com/achedeuzot/ecto_commons/workflows/tests/badge.svg)](https://github.com/achedeuzot/ecto_commons/actions?query=workflow%3Atests+branch%3Amaster) [![Coverage Status](https://coveralls.io/repos/github/achedeuzot/ecto_commons/badge.svg?branch=master)](https://coveralls.io/github/achedeuzot/ecto_commons?branch=master) [![Hex Version](https://img.shields.io/hexpm/v/ecto_commons.svg)](https://hex.pm/packages/ecto_commons) [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
 Ecto common helpers such as validators and formatters.
 
