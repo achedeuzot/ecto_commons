@@ -1,0 +1,60 @@
+on: ["push", "pull_request"]
+
+name: Tests
+
+env:
+  MIX_ENV: test
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    strategy:
+      fail-fast: false
+      matrix:
+        otp: ["20.3", "21.3", "22.3", "23.1"]
+        elixir: ["1.9.4", "1.10.4", "1.11.0"]
+        exclude:
+          - otp: "23.1"
+            elixir: "1.9.4"
+          - otp: "20.3"
+            elixir: "1.10.4"
+          - otp: "23.1"
+            elixir: "1.10.4"
+          - otp: "20.3"
+            elixir: "1.11.0"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-elixir@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-mix-deps
+        with:
+          path: ./deps
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('mix.lock') }}
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - run: mix deps.get
+      - run: mix compile --warnings-as-errors
+      - run: mix credo --strict
+      - run: mix dialyzer
+      - uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: run-${{ matrix.otp }}-${{ matrix.elixir }}
+          parallel: true
+
+  finish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
