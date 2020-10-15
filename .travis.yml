@@ -1,23 +1,30 @@
 language: elixir
-sudo: false
+os: linux
+dist: xenial
 
 otp_release:
   - 21
 elixir:
   - 1.9
 
-matrix:
+jobs:
   include:
-    - elixir: '1.9'
-      otp_release: '20.3'
-    - elixir: '1.9'
-      otp_release: '21.3'
-    - elixir: '1.9'
-      otp_release: '22.3'
-    - elixir: '1.10'
-      otp_release: '21.3'
-    - elixir: '1.10'
-      otp_release: '22.3'
+    - elixir: "1.9"
+      otp_release: "20.3"
+    - elixir: "1.9"
+      otp_release: "21.3"
+    - elixir: "1.9"
+      otp_release: "22.3"
+    - elixir: "1.10"
+      otp_release: "21.3"
+    - elixir: "1.10"
+      otp_release: "22.3"
+    - elixir: "1.11"
+      otp_release: "21.3"
+    - elixir: "1.11"
+      otp_release: "22.3"
+    - elixir: "1.11"
+      otp_release: "23.1"
 
 env:
   global:
@@ -35,10 +42,9 @@ install:
 script:
   - mix compile
   - mix credo --strict
-  - mix dialyzer --halt-exit-status
+  - mix dialyzer
   - mix test
   - mix coveralls.travis
-
 #deploy:
 #  provider: script
 #  script: >-
