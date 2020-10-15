@@ -1,6 +1,10 @@
-on: ["push", "pull_request"]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
 
-name: Tests
+name: tests
 
 env:
   MIX_ENV: test
@@ -23,38 +27,29 @@ jobs:
             elixir: "1.10.4"
           - otp: "20.3"
             elixir: "1.11.0"
+    env:
+      MIX_ENV: test
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-elixir@v1
         with:
           otp-version: ${{matrix.otp}}
           elixir-version: ${{matrix.elixir}}
-      - name: Cache node modules
+      - name: Cache deps
         uses: actions/cache@v2
-        env:
-          cache-name: cache-mix-deps
         with:
-          path: ./deps
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('mix.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('mix.lock') }}
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+          path: deps
+          key: ${{ runner.os }}-deps-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-deps-${{ matrix.otp }}-${{ matrix.elixir }}-
+      - name: Cache build
+        uses: actions/cache@v2
+        with:
+          path: _build
+          key: ${{ runner.os }}-build-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-build-${{ matrix.otp }}-${{ matrix.elixir }}-
       - run: mix deps.get
       - run: mix compile --warnings-as-errors
       - run: mix credo --strict
-      - run: mix dialyzer
-      - uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: run-${{ matrix.otp }}-${{ matrix.elixir }}
-          parallel: true
-
-  finish:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel-finished: true
+      - run: mix coveralls.github
+      # - run: mix dialyzer

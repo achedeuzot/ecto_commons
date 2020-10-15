@@ -1,6 +1,6 @@
 # EctoCommons
 
-[![Build Status](https://img.shields.io/travis/achedeuzot/ecto_commons/master.svg)](https://travis-ci.org/achedeuzot/ecto_commons) [![Coverage Status](https://coveralls.io/repos/github/achedeuzot/ecto_commons/badge.svg?branch=master)](https://coveralls.io/github/achedeuzot/ecto_commons?branch=master) [![Hex Version](https://img.shields.io/hexpm/v/ecto_commons.svg)](https://hex.pm/packages/ecto_commons) [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+[![Build Status](https://github.com/achedeuzot/ecto_commons/workflows/tests/badge.svg?branch=master)](https://github.com/achedeuzot/ecto_commons/actions?query=workflow%3Atests+branch%3Amaster) [![Coverage Status](https://coveralls.io/repos/github/achedeuzot/ecto_commons/badge.svg?branch=master)](https://coveralls.io/github/achedeuzot/ecto_commons?branch=master) [![Hex Version](https://img.shields.io/hexpm/v/ecto_commons.svg)](https://hex.pm/packages/ecto_commons) [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
 Ecto common helpers such as validators and formatters.
 
@@ -50,7 +50,7 @@ The package contains common ecto helpers:
     - `validate_postal_code(changeset, field, opts)`: validates postal code formatting
       using regular expressions depending on the country. This only ensures the postal
       code "looks ok" but doesn't check it really exists (that will need a complete
-      database of all postal codes worldwide). 
+      database of all postal codes worldwide).
   - `EctoCommon.SocialSecurityValidator`
     - `validate_social_security(changeset, field, opts)`: validates social security
       numbers (SSN) depending on the country. This only validates french SSNs for now.
