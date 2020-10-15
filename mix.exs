@@ -30,7 +30,9 @@ defmodule EctoCommons.MixProject do
 
       # Type checking
       dialyzer: [
-        plt_core_path: "_build/#{Mix.env()}"
+        plt_core_path: "_build/#{Mix.env()}",
+        plt_add_deps: :apps_direct,
+        plt_ignore_apps: [:earmark, :benchee, :ex_doc]
       ]
     ]
   end
