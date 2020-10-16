@@ -5,6 +5,7 @@
   - `validate_email`: Fix default checks to `:html_input` instead of `:pow` and
      adds tests to confirm this is always the case to match documentation
   - `validate_email`: Update `:pow` validation with upstream changes
+  - `validate_phone_number`: Validate phone numbers using libphonenumber
 - Misc:
   - moved from Travis CI to GitHub Actions
 

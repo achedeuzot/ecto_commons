@@ -57,6 +57,8 @@ defmodule EctoCommons.MixProject do
       {:burnex, "~> 2.0"},
       # Used by Luhn validator
       {:luhn, "~> 0.3.0"},
+      # Used by phone number validator
+      {:ex_phone_number, "~> 0.2"},
 
       # Docs:
       {:ex_doc, "~> 0.21", only: :dev},
