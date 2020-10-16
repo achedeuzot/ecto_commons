@@ -32,7 +32,6 @@ defmodule EctoCommons.PhoneNumberValidator do
       ...> |> validate_phone_number(:phone_number)
       #Ecto.Changeset<action: nil, changes: %{phone_number: "+16502530000"}, errors: [], data: %{}, valid?: true>
 
-
       iex> types = %{phone_number: :string}
       iex> params = %{phone_number: "01 23 45 67 89"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
