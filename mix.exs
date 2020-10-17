@@ -1,7 +1,7 @@
 defmodule EctoCommons.MixProject do
   use Mix.Project
 
-  @version "0.2.0"
+  @version "0.3.0"
 
   def project do
     [
@@ -94,7 +94,7 @@ defmodule EctoCommons.MixProject do
   defp package do
     [
       name: :ecto_commons,
-      files: ~w(lib .formatter.exs mix.exs README.md LICENSE CHANGELOG.md),
+      files: ~w(lib priv .formatter.exs mix.exs README.md LICENSE CHANGELOG.md),
       maintainers: ["Klemen Sever"],
       licenses: ["MIT"],
       links: %{GitHub: "https://github.com/achedeuzot/ecto_commons"}

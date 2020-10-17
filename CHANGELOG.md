@@ -1,6 +1,8 @@
 # Changelog
 
 ## Upcoming
+
+## Version 0.3.0
 - Ecto Validators:
   - `validate_email`: Fix default checks to `:html_input` instead of `:pow` and
      adds tests to confirm this is always the case to match documentation

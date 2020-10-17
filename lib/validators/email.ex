@@ -93,12 +93,10 @@ defmodule EctoCommons.EmailValidator do
 
   @spec do_validate_email(String.t(), atom()) :: :ok | {:error, String.t()}
   defp do_validate_email(email, :burner) do
-    case Burnex.is_burner?(email) do
-      false ->
-        :ok
-
-      true ->
-        {:error, "uses a forbidden provider"}
+    if Burnex.is_burner?(email) do
+      {:error, "uses a forbidden provider"}
+    else
+      :ok
     end
   end
 
