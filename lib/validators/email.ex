@@ -12,6 +12,7 @@ defmodule EctoCommons.EmailValidator do
     please use the `:pow` check as it is more flexible with international emails. Defaults to enabled.
   - `:burner`: Checks if the email given is a burner email provider (uses the `Burnex` lib under the hood).
     When enabled, will reject temporary email providers. Defaults to disabled.
+  - `:check_mx_record`: Checks if the email domain exists in the DNS system (can be a bit slow).
   - `:pow`: Checks the email using the [`pow`](https://hex.pm/packages/pow) logic. Defaults to disabled.
     The rules are the following:
     - Split into local-part and domain at last `@` occurrence
@@ -110,6 +111,21 @@ defmodule EctoCommons.EmailValidator do
     case pow_validate_email(email) do
       :ok -> :ok
       {:error, _msg} -> {:error, "is not a valid email"}
+    end
+  end
+
+  defp do_validate_email(email, :check_mx_record) do
+    case email
+         |> String.split("@")
+         |> Enum.reverse() do
+      [domain | _rest] ->
+        case Burnex.check_domain_mx_record(domain) do
+          :ok -> :ok
+          {:error, _msg} -> {:error, "is not a valid email domain"}
+        end
+
+      _else ->
+        {:error, "is not a valid email domain"}
     end
   end
 
