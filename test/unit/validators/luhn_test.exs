@@ -3,7 +3,7 @@ defmodule EctoCommons.LuhnValidatorTest do
   import EctoCommons.LuhnValidator
   doctest EctoCommons.LuhnValidator, import: true
 
-  test "validate_luhn/2 accepts transformer function" do
+  test "validate_luhn/2 accepts a :transformer function" do
     types = %{admin_code: :string}
     params = %{admin_code: "2A0123451"}
 
@@ -20,5 +20,15 @@ defmodule EctoCommons.LuhnValidatorTest do
       )
 
     assert result.errors == []
+  end
+
+  test "validate_luhn/2 raises if :transformer function" do
+    types = %{admin_code: :string}
+    params = %{admin_code: "2A0123451"}
+
+    assert_raise(RuntimeError, "Given `:transformer` is not a function", fn ->
+      Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
+      |> validate_luhn(:admin_code, transformer: :atom)
+    end)
   end
 end

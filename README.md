@@ -12,7 +12,7 @@ by adding `ecto_commons` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:ecto_commons, "~> 0.3.0"}
+    {:ecto_commons, "~> 0.3.1"}
   ]
 end
 ```

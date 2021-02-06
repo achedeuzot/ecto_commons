@@ -30,7 +30,7 @@ defmodule EctoCommons.LuhnValidator do
     transformer = Keyword.get(opts, :transformer, & &1)
 
     if transformer && !is_function(transformer),
-      do: raise("Given `transformer` is not a function")
+      do: raise("Given `:transformer` is not a function")
 
     validate_change(changeset, field, {:luhn, opts}, fn _, value ->
       value = transformer.(value)
