@@ -123,9 +123,6 @@ defmodule EctoCommons.DateValidator do
 
   defp wrong_date(%Date{} = value, value, _delta, _opts), do: nil
 
-  defp wrong_date(%DateTime{} = value, is, delta, opts),
-    do: DateTime.to_date(value) |> wrong_date(is, delta, opts)
-
   defp wrong_date(%Date{} = value, is, nil, opts) do
     case Date.compare(value, is) do
       :eq -> nil
@@ -151,9 +148,6 @@ defmodule EctoCommons.DateValidator do
 
   defp too_soon(%Date{} = value, value, _opts), do: nil
 
-  defp too_soon(%DateTime{} = value, afterr, opts),
-    do: DateTime.to_date(value) |> too_soon(afterr, opts)
-
   defp too_soon(%Date{} = value, afterr, opts) do
     case Date.compare(value, afterr) do
       :gt -> nil
@@ -162,9 +156,6 @@ defmodule EctoCommons.DateValidator do
   end
 
   defp too_late(%Date{} = value, value, _opts), do: nil
-
-  defp too_late(%DateTime{} = value, before, opts),
-    do: DateTime.to_date(value) |> too_late(before, opts)
 
   defp too_late(%Date{} = value, before, opts) do
     case Date.compare(value, before) do
