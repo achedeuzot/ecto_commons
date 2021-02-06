@@ -99,9 +99,6 @@ defmodule EctoCommons.TimeValidator do
 
   defp wrong_time(%Time{} = value, value, _delta, _opts), do: nil
 
-  defp wrong_time(%DateTime{} = value, is, delta, opts),
-    do: DateTime.to_time(value) |> wrong_time(is, delta, opts)
-
   defp wrong_time(%Time{} = value, is, nil, opts) do
     case Time.compare(value, is) do
       :eq -> nil
@@ -127,9 +124,6 @@ defmodule EctoCommons.TimeValidator do
 
   defp too_soon(%Time{} = value, value, _opts), do: nil
 
-  defp too_soon(%DateTime{} = value, afterr, opts),
-    do: DateTime.to_time(value) |> too_soon(afterr, opts)
-
   defp too_soon(%Time{} = value, afterr, opts) do
     case Time.compare(value, afterr) do
       :gt -> nil
@@ -138,9 +132,6 @@ defmodule EctoCommons.TimeValidator do
   end
 
   defp too_late(%Time{} = value, value, _opts), do: nil
-
-  defp too_late(%DateTime{} = value, before, opts),
-    do: DateTime.to_time(value) |> too_late(before, opts)
 
   defp too_late(%Time{} = value, before, opts) do
     case Time.compare(value, before) do

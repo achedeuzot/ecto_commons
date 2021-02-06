@@ -1,7 +1,7 @@
 defmodule EctoCommons.MixProject do
   use Mix.Project
 
-  @version "0.3.0"
+  @version "0.3.1"
 
   def project do
     [
@@ -71,7 +71,7 @@ defmodule EctoCommons.MixProject do
       {:benchee, "~> 1.0", only: :dev},
 
       # Type checking
-      {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
 
       # Lint:
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},

@@ -7,6 +7,7 @@ defmodule EctoCommons.DateValidatorTest do
   @parameters_before [
     # Happy path
     {~D[2015-05-20], ~D[2015-05-24], []},
+    {~D[2015-05-20], :utc_today, []},
     # Equal date does not trigger error, it has to be strictly lower.
     {~D[2015-05-24], ~D[2015-05-24], []},
 
@@ -33,6 +34,7 @@ defmodule EctoCommons.DateValidatorTest do
   @parameters_after [
     # Happy path
     {~D[2015-05-25], ~D[2015-05-24], []},
+    {~D[2999-05-25], :utc_today, []},
     # Equal date does not trigger error, it has to be strictly greatly.
     {~D[2015-05-24], ~D[2015-05-24], []},
 

@@ -50,7 +50,7 @@ defmodule EctoCommons.SocialSecurityValidator do
       value =
         String.upcase(value)
         |> String.split("", trim: true)
-        |> Enum.filter(fn char -> String.match?(char, ~r/[0-9AB]/) end)
+        |> Enum.filter(fn char -> String.match?(char, ~r/[0-9A-Z]/) end)
         |> Enum.join("")
 
       try do
