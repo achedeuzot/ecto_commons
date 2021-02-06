@@ -4,6 +4,12 @@ defmodule EctoCommons.LuhnValidator do
   using the Luhn algorithm. This is useful for credit cards and other
   common administrative values.
 
+  The validator accepts an optional `:transformer` function
+  that can modify the value before applying the Luhn check. This is
+  useful in cases where the input value contains other characters
+  or letters instead of only numbers. The transformed value will
+  be Luhn-checked without replacing the value provided in the params.
+
   ## Example:
 
       iex> types = %{admin_code: :string}
@@ -17,6 +23,12 @@ defmodule EctoCommons.LuhnValidator do
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_luhn(:admin_id)
       #Ecto.Changeset<action: nil, changes: %{admin_id: "74012345123456"}, errors: [admin_id: {"is not a valid code", [validation: :luhn]}], data: %{}, valid?: false>
+
+      iex> types = %{admin_code: :string}
+      iex> params = %{admin_code: "7A0123450"}
+      iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
+      ...> |> validate_luhn(:admin_code, transformer: &(String.replace(&1, "7A", "74")))
+      #Ecto.Changeset<action: nil, changes: %{admin_code: "7A0123450"}, errors: [], data: %{}, valid?: true>
 
       iex> types = %{admin_id: :string}
       iex> params = %{admin_id: "this is an incorrect value"}

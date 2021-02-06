@@ -2,6 +2,10 @@
 
 ## Upcoming
 
+## Version 0.3.2
+- Fixed documentation for `LuhnValidator`: adds example
+  and documentation for `:transformer` optional function
+
 ## Version 0.3.1
 - `validate_email`: Adds email MX check with `:check_mx_record` validator.
 - Bumped dependencies, including credo and burnex.
