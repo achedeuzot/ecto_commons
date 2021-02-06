@@ -28,6 +28,9 @@ jobs:
             elixir: "1.10.4"
           - otp: "20.3"
             elixir: "1.11.3"
+          # The couple OTP 21.3 and elixir 1.11.3 is extermely slow for some reason
+          - otp: "21.3"
+            elixir: "1.11.3"
     env:
       MIX_ENV: test
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
