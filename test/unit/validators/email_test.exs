@@ -9,6 +9,22 @@ defmodule EctoCommons.EmailValidatorTest do
     assert chgst_helper("john.smith(comment)@example.com", checks: [:pow]).valid? == true
   end
 
+  test "validate_email/2 testing :check_mx_record" do
+    assert chgst_helper("john.smith@gmail.com", checks: [:check_mx_record]).valid? == true
+
+    assert chgst_helper("john.smith@does-not-exist-918273645.com", checks: [:check_mx_record]).valid? ==
+             false
+  end
+
+  test "validate_email/2 testing multiple checks" do
+    assert chgst_helper("john.smith@gmail.com", checks: [:pow, :check_mx_record]).valid? == true
+
+    assert chgst_helper("john.smith@does-not-exist-918273645.com",
+             checks: [:pow, :check_mx_record]
+           ).valid? ==
+             false
+  end
+
   test "validate_email/2 with :html_validator check" do
     # Local-part and domain from https://en.wikipedia.org/wiki/Email_address#Syntax
     # The default validator doesn't manage avanced use cases like

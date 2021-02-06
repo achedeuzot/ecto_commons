@@ -1,6 +1,13 @@
 # Changelog
 
 ## Upcoming
+- `validate_email`: Adds email MX check with `:check_mx_record` validator.
+- Bumped dependencies, including credo and burnex.
+- Added some tests on `DateValidator` and `DateTimeValidator`.
+- Adds a `:transformer` func optional argumet to `LuhnValidator` if you
+  need to change the value before validation without modifying the
+  changeset. It's useful if the number contains letters that must
+  be converted to digits before checking the Luhn validity.
 
 ## Version 0.3.0
 - Ecto Validators:
