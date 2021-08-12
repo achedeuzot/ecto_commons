@@ -2,6 +2,10 @@
 
 ## Upcoming
 
+## Version 0.3.3
+- Bumped deps to latest versions
+- Fixed regexes for some european countries in `PostalCodeValidator`
+
 ## Version 0.3.2
 - Fixed documentation for `LuhnValidator`: adds example
   and documentation for `:transformer` optional function
