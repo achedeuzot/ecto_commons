@@ -51,7 +51,6 @@ defmodule EctoCommons.URLValidator do
   # Taken from here https://mathiasbynens.be/demo/url-regex
   # credo:disable-for-next-line Credo.Check.Readability.MaxLineLength
   @http_regex ~r/^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)(?:\.(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)*(?:\.(?:[a-z\x{00a1}-\x{ffff}]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/ius
-  @scheme_defaults [http: 80, https: 443, ftp: 21, ssh: 22, sftp: 22, tftp: 69]
 
   def validate_url(changeset, field, opts \\ []) do
     validate_change(changeset, field, {:url, opts}, fn _, value ->
@@ -72,25 +71,12 @@ defmodule EctoCommons.URLValidator do
   end
 
   defp do_validate_url(value, _parsed, :parsable) do
-    case :uri_string.parse(String.to_charlist(value)) do
-      %{scheme: scheme, port: port} when not is_nil(scheme) and not is_nil(port) ->
+    case URI.parse(value) do
+      %{port: nil} ->
+        :error
+
+      _valid ->
         :ok
-
-      %{scheme: scheme} ->
-        try do
-          case Keyword.fetch(@scheme_defaults, String.to_existing_atom(to_string(scheme))) do
-            {:ok, _} -> :ok
-            :error -> :error
-          end
-        rescue
-          ArgumentError -> :error
-        end
-
-      %{} ->
-        :error
-
-      {:error, _reason, _msg} ->
-        :error
     end
   end
 
