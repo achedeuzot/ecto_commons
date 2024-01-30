@@ -70,6 +70,14 @@ The package contains common ecto helpers:
 
 `ecto_commons` follows semantic versioning. See [`CHANGELOG.md`](https://github.com/achedeuzot/ecto_commons/blob/master/CHANGELOG.md) for more information.
 
+## Development
+
+Use [Earthly](https://earthly.dev/) to run tests against various versions of Elixir and Erlang.
+
+```sh
+earthly +all
+```
+
 ## License
 
 MIT. Please see [LICENSE](https://github.com/achedeuzot/ecto_commons/blob/master/LICENSE) for licensing details.
