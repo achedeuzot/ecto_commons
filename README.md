@@ -12,10 +12,20 @@ by adding `ecto_commons` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:ecto_commons, "~> 0.3.3"}
+    {:ecto_commons, "~> 0.3.4"}
   ]
 end
 ```
+
+## Incompatibility Warning
+
+In order to check whether URLs are parseable,
+this library requires either a recent (>= 1.13.0) of Elixir,
+or an older (< 26) version of OTP.
+
+If you need to use Elixir < 1.12 **together with** OTP >= 26, please use version "0.3.3".
+
+## Documentation
 
 Documentation is published on [HexDocs](https://hexdocs.pm) and can
 be found at [https://hexdocs.pm/ecto_commons](https://hexdocs.pm/ecto_commons).

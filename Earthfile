@@ -2,8 +2,8 @@ VERSION 0.6
 
 all:
     BUILD \
-        --build-arg ELIXIR_BASE=1.9.4-erlang-20.3.8.26-alpine-3.11.6 \
-        --build-arg ELIXIR_BASE=1.11.3-erlang-23.2.7.5-alpine-3.16.0 \
+        --build-arg ELIXIR_BASE=1.13.0-erlang-22.3.4.2-alpine-3.12.0 \
+        --build-arg ELIXIR_BASE=1.14.5-erlang-24.3.4.15-alpine-3.18.4 \
         +test
 
 test:
