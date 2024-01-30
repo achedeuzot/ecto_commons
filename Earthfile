@@ -4,6 +4,7 @@ all:
     BUILD \
         --build-arg ELIXIR_BASE=1.13.0-erlang-22.3.4.2-alpine-3.12.0 \
         --build-arg ELIXIR_BASE=1.14.5-erlang-24.3.4.15-alpine-3.18.4 \
+        --build-arg ELIXIR_BASE=1.16.0-erlang-26.2.1-alpine-3.17.5 \
         +test
 
 test:
