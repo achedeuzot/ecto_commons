@@ -13,7 +13,7 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
-    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    name: Elixir/OTP ${{matrix.elixirbase}}
     strategy:
       fail-fast: false
       matrix:
