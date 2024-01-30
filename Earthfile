@@ -13,8 +13,10 @@ test:
     RUN mix local.rebar --force
     RUN mix local.hex --force
     WORKDIR /src/ecto_commons
+
     COPY mix.exs mix.lock .formatter.exs ./
     RUN mix deps.get
+    RUN MIX_ENV=test mix deps.compile
 
     COPY --dir lib priv test ./
     RUN mix test
