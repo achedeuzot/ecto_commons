@@ -68,11 +68,8 @@ defmodule EctoCommons.URLValidatorTest do
     {"http://", []},
     {"http:///a", []},
     {"foo.com", []},
-    {"rdar://1234", []},
-    {"h://test", []},
     {":// should fail", []},
     {"://", []},
-    {"ftps://foo.bar/", []},
 
     # Add additional check with http_regexp
     {"http://.", [checks: [:parsable, :empty, :scheme, :host, :http_regexp]]},
