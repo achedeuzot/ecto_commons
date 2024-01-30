@@ -30,4 +30,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Run tests under ${{matrix.elixirbase}}
-        run: earthly -P --ci --build-arg ELIXIR_BASE=${{matrix.elixirbase}} +test
+        run: earthly -P --ci --build-arg ELIXIR_BASE=${{matrix.elixirbase}} --build-arg COVERALLS_GITHUB=true +test

@@ -20,4 +20,10 @@ test:
     RUN MIX_ENV=test mix deps.compile
 
     COPY --dir lib priv test ./
-    RUN mix test
+    RUN mix compile --warnings-as-errors
+    RUN mix dialyzer
+    IF [ -n "$COVERALLS_GITHUB" ]
+      RUN mix coveralls.github
+    ELSE
+      RUN mix test
+    END
