@@ -23,8 +23,6 @@ In order to check whether URLs are parseable,
 this library requires either a recent (>= 1.13.0) of Elixir,
 or an older (< 26) version of OTP.
 
-If you need to use Elixir < 1.12 **together with** OTP >= 26, please use version "0.3.3".
-
 ## Documentation
 
 Documentation is published on [HexDocs](https://hexdocs.pm) and can
