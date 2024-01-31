@@ -29,6 +29,7 @@ defmodule EctoCommons.URLValidatorTest do
     {"http://code.google.com/events/#&product=browser", []},
     {"http://j.mp", []},
     {"ftp://foo.bar/baz", []},
+    {"ftps://foo.bar/", []},
     {"http://foo.bar/?q=Test%20URL-encoded%20stuff", []},
     {"http://-.~_!$&()*+,;=:%40:80%2f::::::@example.com", []},
     {"http://1337.net", []},
