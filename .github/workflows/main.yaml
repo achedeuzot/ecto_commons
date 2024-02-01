@@ -13,47 +13,21 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
-    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    name: Elixir/OTP ${{matrix.elixirbase}}
     strategy:
       fail-fast: false
       matrix:
-        otp: ["20.3", "21.3", "22.3", "23.2"]
-        elixir: ["1.9.4", "1.10.4", "1.11.3"]
-        exclude:
-          - otp: "23.2"
-            elixir: "1.9.4"
-          - otp: "20.3"
-            elixir: "1.10.4"
-          - otp: "23.2"
-            elixir: "1.10.4"
-          - otp: "20.3"
-            elixir: "1.11.3"
-          # The couple OTP 21.3 and elixir 1.11.3 is extermely slow for some reason
-          - otp: "21.3"
-            elixir: "1.11.3"
+        elixirbase:
+        - 1.13.0-erlang-22.3.4.2-alpine-3.12.0
+        - 1.14.5-erlang-24.3.4.15-alpine-3.18.4
+        - 1.16.0-erlang-26.2.1-alpine-3.17.5
     env:
       MIX_ENV: test
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: erlef/setup-beam@v1
-        with:
-          otp-version: ${{matrix.otp}}
-          elixir-version: ${{matrix.elixir}}
-      - name: Cache deps
-        uses: actions/cache@v2
-        with:
-          path: deps
-          key: ${{ runner.os }}-deps-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
-          restore-keys: ${{ runner.os }}-deps-${{ matrix.otp }}-${{ matrix.elixir }}-
-      - name: Cache build
-        uses: actions/cache@v2
-        with:
-          path: _build
-          key: ${{ runner.os }}-build-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
-          restore-keys: ${{ runner.os }}-build-${{ matrix.otp }}-${{ matrix.elixir }}-
-      - run: mix deps.get
-      - run: mix compile --warnings-as-errors
-      - run: mix credo --strict
-      - run: mix coveralls.github
-      - run: mix dialyzer
+      - name: Set up Earthly
+        uses: earthly/actions-setup@v1
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run tests under ${{matrix.elixirbase}}
+        run: earthly -P --ci --build-arg ELIXIR_BASE=${{matrix.elixirbase}} --build-arg COVERALLS_GITHUB=true +test

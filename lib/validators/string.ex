@@ -47,9 +47,14 @@ defmodule EctoCommons.StringValidator do
       # Dynamic prefix from another changeset field
       iex> types = %{token: :string, provider: :string}
       iex> params = %{token: "iamsvc|some-random-string-id", provider: "iamsvc"}
-      iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
+      iex> changeset = Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_has_prefix(:token, prefix: fn chgst, _opts -> Ecto.Changeset.get_field(chgst, :provider) end)
-      #Ecto.Changeset<action: nil, changes: %{provider: "iamsvc", token: "iamsvc|some-random-string-id"}, errors: [], data: %{}, valid?: true>
+      iex> changeset.changes.provider
+      "iamsvc"
+      iex> changeset.changes.token
+      "iamsvc|some-random-string-id"
+      iex> changeset.valid?
+      true
 
       # Dynamic prefix from another changeset field
       iex> types = %{token: :string, provider: :string}

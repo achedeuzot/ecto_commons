@@ -12,10 +12,18 @@ by adding `ecto_commons` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:ecto_commons, "~> 0.3.3"}
+    {:ecto_commons, "~> 0.3.4"}
   ]
 end
 ```
+
+## Incompatibility Warning
+
+In order to check whether URLs are parseable,
+this library requires either a recent (>= 1.13.0) of Elixir,
+or an older (< 26) version of OTP.
+
+## Documentation
 
 Documentation is published on [HexDocs](https://hexdocs.pm) and can
 be found at [https://hexdocs.pm/ecto_commons](https://hexdocs.pm/ecto_commons).
@@ -69,6 +77,14 @@ The package contains common ecto helpers:
 ## Changelog
 
 `ecto_commons` follows semantic versioning. See [`CHANGELOG.md`](https://github.com/achedeuzot/ecto_commons/blob/master/CHANGELOG.md) for more information.
+
+## Development
+
+Use [Earthly](https://earthly.dev/) to run tests against various versions of Elixir and Erlang.
+
+```sh
+earthly +all
+```
 
 ## License
 

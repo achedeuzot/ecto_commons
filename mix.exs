@@ -1,7 +1,7 @@
 defmodule EctoCommons.MixProject do
   use Mix.Project
 
-  @version "0.3.3"
+  @version "0.3.4"
 
   def project do
     [
@@ -12,7 +12,7 @@ defmodule EctoCommons.MixProject do
       source_url: "https://github.com/achedeuzot/ecto_commons",
       homepage_url: "http://hexdocs.pm/ecto_commons",
       package: package(),
-      elixir: "~> 1.9",
+      elixir: "~> 1.13",
       elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),
       docs: docs(),
