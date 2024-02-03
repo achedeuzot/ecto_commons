@@ -17,9 +17,7 @@ defmodule EctoCommons.DateValidatorTest do
   ]
 
   for {input, before, expected_errors} <- @parameters_before do
-    test "validate_date with #{input} is before #{before}, returns errors as #{
-           inspect(expected_errors)
-         }" do
+    test "validate_date with #{input} is before #{before}, returns errors as #{inspect(expected_errors)}" do
       types = %{birthdate: :date}
       params = %{birthdate: unquote(Macro.escape(input))}
 
@@ -44,9 +42,7 @@ defmodule EctoCommons.DateValidatorTest do
   ]
 
   for {input, afterr, expected_errors} <- @parameters_after do
-    test "validate_date with #{input} is after #{afterr}, returns errors as #{
-           inspect(expected_errors)
-         }" do
+    test "validate_date with #{input} is after #{afterr}, returns errors as #{inspect(expected_errors)}" do
       types = %{birthdate: :date}
       params = %{birthdate: unquote(Macro.escape(input))}
 

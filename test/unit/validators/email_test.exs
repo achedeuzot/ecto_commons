@@ -105,9 +105,7 @@ defmodule EctoCommons.EmailValidatorTest do
 
     # Other successs cases
     assert chgst_helper(
-             "john.doe@#{String.duplicate("x", 63)}.#{String.duplicate("x", 63)}.#{
-               String.duplicate("x", 63)
-             }.#{String.duplicate("x", 63)}"
+             "john.doe@#{String.duplicate("x", 63)}.#{String.duplicate("x", 63)}.#{String.duplicate("x", 63)}.#{String.duplicate("x", 63)}"
            ).valid? == true
 
     assert chgst_helper("john.doe@1.2.com").valid? == true
@@ -121,9 +119,7 @@ defmodule EctoCommons.EmailValidatorTest do
 
     # The too-long domain is not captured either
     assert chgst_helper(
-             "john.doe@#{String.duplicate("x", 63)}.#{String.duplicate("x", 63)}.#{
-               String.duplicate("x", 63)
-             }.#{String.duplicate("x", 60)}.com"
+             "john.doe@#{String.duplicate("x", 63)}.#{String.duplicate("x", 63)}.#{String.duplicate("x", 63)}.#{String.duplicate("x", 60)}.com"
            ).valid? == true
 
     assert chgst_helper("john.doe@-example.com").valid? == false
@@ -221,9 +217,7 @@ defmodule EctoCommons.EmailValidatorTest do
 
     # Other successs cases
     assert chgst_helper(
-             "john.doe@#{String.duplicate("x", 63)}.#{String.duplicate("x", 63)}.#{
-               String.duplicate("x", 63)
-             }.#{String.duplicate("x", 63)}",
+             "john.doe@#{String.duplicate("x", 63)}.#{String.duplicate("x", 63)}.#{String.duplicate("x", 63)}.#{String.duplicate("x", 63)}",
              checks: [:pow]
            ).valid? == true
 
@@ -237,9 +231,7 @@ defmodule EctoCommons.EmailValidatorTest do
     assert chgst_helper("noatsign", checks: [:pow]).valid? == false
 
     assert chgst_helper(
-             "john.doe@#{String.duplicate("x", 63)}.#{String.duplicate("x", 63)}.#{
-               String.duplicate("x", 63)
-             }.#{String.duplicate("x", 60)}.com",
+             "john.doe@#{String.duplicate("x", 63)}.#{String.duplicate("x", 63)}.#{String.duplicate("x", 63)}.#{String.duplicate("x", 60)}.com",
              checks: [:pow]
            ).valid? == false
 

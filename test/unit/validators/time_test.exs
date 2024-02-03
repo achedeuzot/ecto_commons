@@ -20,9 +20,7 @@ defmodule EctoCommons.TimeValidatorTest do
   ]
 
   for {input, before, expected_errors} <- @parameters_before do
-    test "validate_time with #{input} is before #{before}, returns errors as #{
-           inspect(expected_errors)
-         }" do
+    test "validate_time with #{input} is before #{before}, returns errors as #{inspect(expected_errors)}" do
       types = %{meeting_start: :time}
       params = %{meeting_start: unquote(Macro.escape(input))}
 
@@ -50,9 +48,7 @@ defmodule EctoCommons.TimeValidatorTest do
   ]
 
   for {input, afterr, expected_errors} <- @parameters_after do
-    test "validate_time with #{input} is after #{afterr}, returns errors as #{
-           inspect(expected_errors)
-         }" do
+    test "validate_time with #{input} is after #{afterr}, returns errors as #{inspect(expected_errors)}" do
       types = %{meeting_start: :time}
       params = %{meeting_start: unquote(Macro.escape(input))}
 

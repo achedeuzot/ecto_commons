@@ -2,6 +2,13 @@
 
 ## Upcoming
 
+## Version 0.3.5
+- Fixed formatting with latest formatter.
+
+## Version 0.3.4
+- Replaced `:http_uri.parse` with `URI.new`.
+- Bumped all dependencies.
+
 ## Version 0.3.3
 - Bumped deps to latest versions
 - Fixed regexes for some european countries in `PostalCodeValidator`
