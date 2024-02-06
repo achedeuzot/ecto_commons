@@ -13,7 +13,7 @@ defmodule EctoCommons.DateValidatorTest do
 
     # Sad path
     {~D[2015-05-25], ~D[2015-05-24],
-     [{:birthdate, {"should be before %{before}.", [validation: :datetime, kind: :before]}}]}
+     [{:birthdate, {"should be before %{before}.", [validation: :date, kind: :before]}}]}
   ]
 
   for {input, before, expected_errors} <- @parameters_before do
@@ -38,7 +38,7 @@ defmodule EctoCommons.DateValidatorTest do
 
     # Sad path
     {~D[2015-05-23], ~D[2015-05-24],
-     [{:birthdate, {"should be after %{after}.", [validation: :datetime, kind: :after]}}]}
+     [{:birthdate, {"should be after %{after}.", [validation: :date, kind: :after]}}]}
   ]
 
   for {input, afterr, expected_errors} <- @parameters_after do
@@ -62,7 +62,7 @@ defmodule EctoCommons.DateValidatorTest do
       Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       |> validate_date(:birthdate, after: ~D[2015-05-25], before: ~D[2015-05-25])
 
-    assert [{:birthdate, {"should be after %{after}.", [validation: :datetime, kind: :after]}}] ==
+    assert [{:birthdate, {"should be after %{after}.", [validation: :date, kind: :after]}}] ==
              result.errors
   end
 end
