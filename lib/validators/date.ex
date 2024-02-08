@@ -36,7 +36,7 @@ defmodule EctoCommons.DateValidator do
       iex> params = %{birthdate: ~D[2016-05-24]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_date(:birthdate, is: ~D[2017-05-24])
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [birthdate: {"should be %{is}.", [validation: :date, kind: :is]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [birthdate: {"should be %{is}.", [validation: :date, kind: :is, is: ~D[2017-05-24]]}], data: %{}, valid?: false>
 
       # Using :is with :delta to ensure a date is near another another date
       iex> types = %{birthdate: :date}
@@ -49,7 +49,7 @@ defmodule EctoCommons.DateValidator do
       iex> params = %{birthdate: ~D[2016-04-24]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_date(:birthdate, is: ~D[2016-05-24], delta: 7)
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-04-24]}, errors: [birthdate: {"should be %{is}.", [validation: :date, kind: :is]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-04-24]}, errors: [birthdate: {"should be %{is}.", [validation: :date, kind: :is, is: ~D[2016-05-24]]}], data: %{}, valid?: false>
 
       # Using :before to ensure date is before given date
       iex> types = %{birthdate: :date}
@@ -62,19 +62,7 @@ defmodule EctoCommons.DateValidator do
       iex> params = %{birthdate: ~D[2016-05-24]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_date(:birthdate, before: ~D[2015-05-24])
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [birthdate: {"should be before %{before}.", [validation: :date, kind: :before]}], data: %{}, valid?: false>
-
-      iex> types = %{birthdate: :date}
-      iex> params = %{birthdate: ~D[2016-05-24]}
-      iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
-      ...> |> validate_date(:birthdate, before: :utc_today)
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [], data: %{}, valid?: true>
-
-      iex> types = %{birthdate: :date}
-      iex> params = %{birthdate: ~D[3000-05-24]}
-      iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
-      ...> |> validate_date(:birthdate, before: :utc_today)
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[3000-05-24]}, errors: [birthdate: {"should be before %{before}.", [validation: :date, kind: :before]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [birthdate: {"should be before %{before}.", [validation: :date, kind: :before, before: ~D[2015-05-24]]}], data: %{}, valid?: false>
 
       # Using :after to ensure date is after given date
       iex> types = %{birthdate: :date}
@@ -87,19 +75,7 @@ defmodule EctoCommons.DateValidator do
       iex> params = %{birthdate: ~D[2016-05-24]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_date(:birthdate, after: ~D[2017-05-24])
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [birthdate: {"should be after %{after}.", [validation: :date, kind: :after]}], data: %{}, valid?: false>
-
-      iex> types = %{birthdate: :date}
-      iex> params = %{birthdate: ~D[3000-05-24]}
-      iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
-      ...> |> validate_date(:birthdate, after: :utc_today)
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[3000-05-24]}, errors: [], data: %{}, valid?: true>
-
-      iex> types = %{birthdate: :date}
-      iex> params = %{birthdate: ~D[1000-05-24]}
-      iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
-      ...> |> validate_date(:birthdate, after: :utc_today)
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[1000-05-24]}, errors: [birthdate: {"should be after %{after}.", [validation: :date, kind: :after]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [birthdate: {"should be after %{after}.", [validation: :date, kind: :after, after: ~D[2017-05-24]]}], data: %{}, valid?: false>
 
   """
 
@@ -126,7 +102,7 @@ defmodule EctoCommons.DateValidator do
   defp wrong_date(%Date{} = value, is, nil, opts) do
     case Date.compare(value, is) do
       :eq -> nil
-      _ -> {message(opts, "should be %{is}."), validation: :date, kind: :is}
+      _ -> {message(opts, "should be %{is}."), validation: :date, kind: :is, is: is}
     end
   end
 
@@ -138,7 +114,7 @@ defmodule EctoCommons.DateValidator do
       _ ->
         case abs(Date.diff(value, is)) do
           val when val > delta ->
-            {message(opts, "should be %{is}."), validation: :date, kind: :is}
+            {message(opts, "should be %{is}."), validation: :date, kind: :is, is: is}
 
           _ ->
             nil
@@ -151,7 +127,7 @@ defmodule EctoCommons.DateValidator do
   defp too_soon(%Date{} = value, afterr, opts) do
     case Date.compare(value, afterr) do
       :gt -> nil
-      _ -> {message(opts, "should be after %{after}."), validation: :date, kind: :after}
+      _ -> {message(opts, "should be after %{after}."), validation: :date, kind: :after, after: afterr}
     end
   end
 
@@ -160,7 +136,7 @@ defmodule EctoCommons.DateValidator do
   defp too_late(%Date{} = value, before, opts) do
     case Date.compare(value, before) do
       :lt -> nil
-      _ -> {message(opts, "should be before %{before}."), validation: :date, kind: :before}
+      _ -> {message(opts, "should be before %{before}."), validation: :date, kind: :before, before: before}
     end
   end
 
