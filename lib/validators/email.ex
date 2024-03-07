@@ -10,8 +10,8 @@ defmodule EctoCommons.EmailValidator do
     their `type="email"` input fields. This is the default as it corresponds to most use-cases. It is quite strict
     without being too narrow. It does not support unicode emails though. If you need better internationalization,
     please use the `:pow` check as it is more flexible with international emails. Defaults to enabled.
-  - `:burner`: Checks if the email given is a burner email provider (uses the `Burnex` lib under the hood).
-    When enabled, will reject temporary email providers. Defaults to disabled.
+  - `:burner`: Checks if the email given is a burner email provider (uses the `Burnex` lib under the hood,
+    so make sure to add it to your dependencies). When enabled, will reject temporary email providers. Defaults to disabled.
   - `:check_mx_record`: Checks if the email domain exists in the DNS system (can be a bit slow).
   - `:pow`: Checks the email using the [`pow`](https://hex.pm/packages/pow) logic. Defaults to disabled.
     The rules are the following:
