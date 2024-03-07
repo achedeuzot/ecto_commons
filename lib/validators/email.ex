@@ -93,11 +93,32 @@ defmodule EctoCommons.EmailValidator do
   end
 
   @spec do_validate_email(String.t(), atom()) :: :ok | {:error, String.t()}
-  defp do_validate_email(email, :burner) do
-    if Burnex.is_burner?(email) do
-      {:error, "uses a forbidden provider"}
-    else
-      :ok
+  if Code.ensure_loaded?(Burnex) do
+    defp do_validate_email(email, :burner) do
+      if Burnex.is_burner?(email) do
+        {:error, "uses a forbidden provider"}
+      else
+        :ok
+      end
+    end
+
+    defp do_validate_email(email, :check_mx_record) do
+      case email
+           |> String.split("@")
+           |> Enum.reverse() do
+        [domain | _rest] ->
+          case Burnex.check_domain_mx_record(domain) do
+            :ok -> :ok
+            {:error, _msg} -> {:error, "is not a valid email domain"}
+          end
+
+        _else ->
+          {:error, "is not a valid email domain"}
+      end
+    end
+  else
+    defp do_validate_email(email, check) when check in [:burner, :check_mx_record] do
+      raise "Burnex not found. Please add it to your dependencies to use :burner and :check_mx_record checks."
     end
   end
 
@@ -111,21 +132,6 @@ defmodule EctoCommons.EmailValidator do
     case pow_validate_email(email) do
       :ok -> :ok
       {:error, _msg} -> {:error, "is not a valid email"}
-    end
-  end
-
-  defp do_validate_email(email, :check_mx_record) do
-    case email
-         |> String.split("@")
-         |> Enum.reverse() do
-      [domain | _rest] ->
-        case Burnex.check_domain_mx_record(domain) do
-          :ok -> :ok
-          {:error, _msg} -> {:error, "is not a valid email domain"}
-        end
-
-      _else ->
-        {:error, "is not a valid email domain"}
     end
   end
 

@@ -54,7 +54,7 @@ defmodule EctoCommons.MixProject do
       {:ecto, "~> 3.4"},
 
       # Used by email validator
-      {:burnex, "~> 3.0"},
+      {:burnex, "~> 3.0", optional: true},
       # Used by Luhn validator
       {:luhn, "~> 0.3.0"},
       # Used by phone number validator
