@@ -15,7 +15,7 @@ test:
     RUN mix local.hex --force
     WORKDIR /src/ecto_commons
 
-    COPY mix.exs mix.lock .formatter.exs ./
+    COPY mix.exs mix.lock .formatter.exs .dialyzer_ignore.exs ./
     RUN mix deps.get
     RUN MIX_ENV=test mix deps.compile
 

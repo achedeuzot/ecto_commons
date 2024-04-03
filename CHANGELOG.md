@@ -2,6 +2,12 @@
 
 ## Upcoming
 
+## Version 0.3.6
+- Made `Burnex` an optional dependency.
+- Fixed `validate_postal_code` not to crash if unknown country code
+- Updated deps: `:burnex`, `:ecto`, `:ex_doc`, `:credo`,
+  `:ex_phone_number`.
+
 ## Version 0.3.5
 - Fixed formatting with latest formatter.
 

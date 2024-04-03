@@ -91,5 +91,30 @@ defmodule EctoCommons.PostalCodeValidatorTest do
         assert result.valid? == false
       end
     end
+
+    test "unknown country code for postal code" do
+      types = %{postal_code: :string}
+      params = %{postal_code: "12345"}
+
+      assert_raise ArgumentError, "Unknown country code for validate_postal_code", fn ->
+        Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
+        |> PostalCodeValidator.validate_postal_code(:postal_code, country: "xx", raise_if_unknown_country: true)
+      end
+    end
+
+    test "reject on unknown country code only if option is given" do
+      types = %{postal_code: :string}
+      params = %{postal_code: "12345"}
+
+      result = Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
+      |> PostalCodeValidator.validate_postal_code(:postal_code, country: "xx")
+
+      assert result.valid? == true
+
+      result = Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
+      |> PostalCodeValidator.validate_postal_code(:postal_code, country: "xx", reject_if_unknown_country: true)
+
+      assert result.valid? == false
+    end
   end
 end

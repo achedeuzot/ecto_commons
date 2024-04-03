@@ -55,7 +55,7 @@ defmodule EctoCommons.PostalCodeValidator do
       country_isoalpha2 =
         Keyword.get(opts, :country) || raise "No country specified for validate_postal_code"
 
-      case String.match?(value, get_regexp(country_isoalpha2)) do
+      case String.match?(value, get_regexp(country_isoalpha2, opts)) do
         true ->
           []
 
@@ -71,8 +71,20 @@ defmodule EctoCommons.PostalCodeValidator do
     argument = String.downcase(isoalpha2)
     {:ok, regex} = Regex.compile("^" <> regex <> "$")
 
-    def get_regexp(unquote(argument)), do: unquote(Macro.escape(regex))
+    def get_regexp(unquote(argument), _opts), do: unquote(Macro.escape(regex))
   end)
+
+  def get_regexp(_unknown, opts) do
+    if Keyword.get(opts, :raise_if_unknown_country, false) do
+      raise ArgumentError, "Unknown country code for validate_postal_code"
+    end
+
+    if Keyword.get(opts, :reject_if_unknown_country, false) do
+      ~r/^(?!x)x/ # Can't match anything
+    else
+      ~r/.*/ # Accept all postal codes
+    end
+  end
 
   defp message(opts, key \\ :message, default) do
     Keyword.get(opts, key, default)
