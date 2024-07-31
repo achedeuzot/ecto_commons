@@ -13,7 +13,11 @@ defmodule EctoCommons.DateValidatorTest do
 
     # Sad path
     {~D[2015-05-25], ~D[2015-05-24],
-     [{:birthdate, {"should be before %{before}.", [validation: :date, kind: :before]}}]}
+     [
+       {:birthdate,
+        {"should be before %{before}.",
+         [validation: :date, kind: :before, before: ~D[2015-05-24]]}}
+     ]}
   ]
 
   for {input, before, expected_errors} <- @parameters_before do
@@ -38,7 +42,10 @@ defmodule EctoCommons.DateValidatorTest do
 
     # Sad path
     {~D[2015-05-23], ~D[2015-05-24],
-     [{:birthdate, {"should be after %{after}.", [validation: :date, kind: :after]}}]}
+     [
+       {:birthdate,
+        {"should be after %{after}.", [validation: :date, kind: :after, after: ~D[2015-05-24]]}}
+     ]}
   ]
 
   for {input, afterr, expected_errors} <- @parameters_after do
@@ -62,7 +69,68 @@ defmodule EctoCommons.DateValidatorTest do
       Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       |> validate_date(:birthdate, after: ~D[2015-05-25], before: ~D[2015-05-25])
 
-    assert [{:birthdate, {"should be after %{after}.", [validation: :date, kind: :after]}}] ==
+    assert [
+             {:birthdate,
+              {"should be after %{after}.",
+               [validation: :date, kind: :after, after: ~D[2015-05-25]]}}
+           ] ==
              result.errors
+  end
+
+  test "validate_date before utc_today with valid data" do
+    types = %{birthdate: :date}
+    params = %{birthdate: ~D[2016-05-24]}
+
+    result =
+      Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
+      |> validate_date(:birthdate, before: :utc_today)
+
+    assert [] == result.errors
+  end
+
+  test "validate_date before utc_today with invalid data" do
+    types = %{birthdate: :date}
+    params = %{birthdate: ~D[3000-05-24]}
+    date = Date.utc_today()
+
+    result =
+      Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
+      |> validate_date(:birthdate, before: :utc_today)
+
+    assert [
+             birthdate: {
+               "should be before %{before}.",
+               [validation: :date, kind: :before, before: date]
+             }
+           ] == result.errors
+  end
+
+  test "validate_date after utc_today with valid data" do
+    types = %{birthdate: :date}
+    params = %{birthdate: ~D[3000-05-24]}
+
+    result =
+      Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
+      |> validate_date(:birthdate, after: :utc_today)
+
+    assert [] == result.errors
+  end
+
+  test "validate_date after utc_today with invalid data" do
+    types = %{birthdate: :date}
+    params = %{birthdate: ~D[1000-05-24]}
+    date = Date.utc_today()
+
+    result =
+      Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
+      |> validate_date(:birthdate, after: :utc_today)
+
+    assert [
+             {:birthdate,
+              {
+                "should be after %{after}.",
+                [validation: :date, kind: :after, after: date]
+              }}
+           ] == result.errors
   end
 end
