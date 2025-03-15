@@ -117,7 +117,7 @@ defmodule EctoCommons.EmailValidator do
       end
     end
   else
-    defp do_validate_email(email, check) when check in [:burner, :check_mx_record] do
+    defp do_validate_email(_email, check) when check in [:burner, :check_mx_record] do
       raise "Burnex not found. Please add it to your dependencies to use :burner and :check_mx_record checks."
     end
   end
