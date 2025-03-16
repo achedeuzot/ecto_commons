@@ -100,7 +100,7 @@ defmodule EctoCommons.StringValidator do
 
   defp wrong_prefix(value, prefix, opts) do
     unless String.starts_with?(value, prefix) do
-      {message(opts, "is not prefixed by %{prefix}."), validation: :has_prefix}
+      {message(opts, :message, "is not prefixed by %{prefix}."), validation: :has_prefix}
     else
       nil
     end
