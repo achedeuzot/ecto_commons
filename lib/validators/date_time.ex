@@ -126,7 +126,7 @@ defmodule EctoCommons.DateTimeValidator do
   defp wrong_datetime(%DateTime{} = value, is, nil, opts) do
     case DateTime.compare(value, is) do
       :eq -> nil
-      _ -> {message(opts, "should be %{is}."), validation: :datetime, kind: :is}
+      _ -> {message(opts, :message, "should be %{is}."), validation: :datetime, kind: :is}
     end
   end
 

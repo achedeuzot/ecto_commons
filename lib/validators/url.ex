@@ -59,7 +59,7 @@ defmodule EctoCommons.URLValidator do
 
       case do_validate_url(value, parsed, checks) do
         :ok -> []
-        :error -> [{field, {message(opts, "is not a valid url"), [validation: :url]}}]
+        :error -> [{field, {message(opts, :message, "is not a valid url"), [validation: :url]}}]
       end
     end)
   end

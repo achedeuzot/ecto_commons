@@ -58,7 +58,7 @@ defmodule EctoCommons.SocialSecurityValidator do
           false ->
             [
               {field,
-               {message(opts, "is not a valid social security number"),
+               {message(opts, :message, "is not a valid social security number"),
                 [validation: :social_security]}}
             ]
 
@@ -69,7 +69,7 @@ defmodule EctoCommons.SocialSecurityValidator do
         _e ->
           [
             {field,
-             {message(opts, "is not a valid social security number"),
+             {message(opts, :message, "is not a valid social security number"),
               [validation: :social_security]}}
           ]
       end
