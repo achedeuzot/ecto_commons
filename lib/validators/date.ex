@@ -51,6 +51,21 @@ defmodule EctoCommons.DateValidator do
       ...> |> validate_date(:birthdate, is: ~D[2016-05-24], delta: 7)
       #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-04-24]}, errors: [birthdate: {"should be %{is}.", [validation: :date, kind: :is, is: ~D[2016-05-24]]}], data: %{}, valid?: false>
 
+      # Using :is with a function to allow for dynamic date comparison
+      iex> types = %{start: :date, finish: :date}
+      iex> params = %{start: ~D[2000-01-01], finish: ~D[2000-01-31]}
+      iex> changeset = Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
+      iex> result = validate_date(changeset, :finish, is: fn chgst, _opts -> Ecto.Changeset.get_field(chgst, :start) |> Date.add(30) end)
+      iex> result.valid?
+      true
+
+      iex> types = %{start: :date, finish: :date}
+      iex> params = %{start: ~D[2000-01-01], finish: ~D[2000-01-02]}
+      iex> changeset = Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
+      iex> result = validate_date(changeset, :finish, is: fn chgst, _opts -> Ecto.Changeset.get_field(chgst, :start) |> Date.add(30) end)
+      iex> result.errors
+      [finish: {"should be %{is}.", [validation: :date, kind: :is, is: ~D[2000-01-31]]}]
+
       # Using :before to ensure date is before given date
       iex> types = %{birthdate: :date}
       iex> params = %{birthdate: ~D[2016-05-24]}
@@ -63,6 +78,21 @@ defmodule EctoCommons.DateValidator do
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_date(:birthdate, before: ~D[2015-05-24])
       #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [birthdate: {"should be before %{before}.", [validation: :date, kind: :before, before: ~D[2015-05-24]]}], data: %{}, valid?: false>
+
+      # Using :before with a function to allow for dynamic date comparison
+      iex> types = %{start: :date, finish: :date}
+      iex> params = %{start: ~D[2000-01-01], finish: ~D[2000-01-31]}
+      iex> changeset = Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
+      iex> result = validate_date(changeset, :start, before: fn chgst, _opts -> Ecto.Changeset.get_field(chgst, :finish) end)
+      iex> result.valid?
+      true
+
+      iex> types = %{start: :date, finish: :date}
+      iex> params = %{start: ~D[2000-01-01], finish: ~D[1999-01-31]}
+      iex> changeset = Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
+      iex> result = validate_date(changeset, :start, before: fn chgst, _opts -> Ecto.Changeset.get_field(chgst, :finish) end)
+      iex> result.errors
+      [start: {"should be before %{before}.", [validation: :date, kind: :before, before: ~D[1999-01-31]]}]
 
       # Using :after to ensure date is after given date
       iex> types = %{birthdate: :date}
@@ -77,6 +107,20 @@ defmodule EctoCommons.DateValidator do
       ...> |> validate_date(:birthdate, after: ~D[2017-05-24])
       #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [birthdate: {"should be after %{after}.", [validation: :date, kind: :after, after: ~D[2017-05-24]]}], data: %{}, valid?: false>
 
+      iex> types = %{start: :date, finish: :date}
+      iex> params = %{start: ~D[2000-01-01], finish: ~D[2000-01-31]}
+      iex> changeset = Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
+      iex> result = validate_date(changeset, :finish, after: fn chgst, _opts -> Ecto.Changeset.get_field(chgst, :start) end)
+      iex> result.valid?
+      true
+
+      iex> types = %{start: :date, finish: :date}
+      iex> params = %{start: ~D[2000-01-01], finish: ~D[1999-01-31]}
+      iex> changeset = Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
+      iex> result = validate_date(changeset, :finish, after: fn chgst, _opts -> Ecto.Changeset.get_field(chgst, :start) end)
+      iex> result.errors
+      [{:finish, {"should be after %{after}.", [validation: :date, kind: :after, after: ~D[2000-01-01]]}}]
+
   """
 
   import Ecto.Changeset
@@ -84,9 +128,9 @@ defmodule EctoCommons.DateValidator do
   def validate_date(changeset, field, opts \\ []) do
     validate_change(changeset, field, {:date, opts}, fn
       _, value ->
-        is = get_validation_value(opts[:is])
-        afterr = get_validation_value(opts[:after])
-        before = get_validation_value(opts[:before])
+        is = get_validation_value(changeset, opts[:is], opts)
+        afterr = get_validation_value(changeset, opts[:after], opts)
+        before = get_validation_value(changeset, opts[:before], opts)
 
         error =
           (is && wrong_date(value, is, opts[:delta], opts)) ||
@@ -140,9 +184,10 @@ defmodule EctoCommons.DateValidator do
     end
   end
 
-  defp get_validation_value(nil), do: nil
-  defp get_validation_value(:utc_today), do: Date.utc_today()
-  defp get_validation_value(%Date{} = val), do: val
+  defp get_validation_value(_changeset, nil, _opts), do: nil
+  defp get_validation_value(_changeset, :utc_today, _opts), do: Date.utc_today()
+  defp get_validation_value(_changeset, %Date{} = val, _opts), do: val
+  defp get_validation_value(changeset, fun, opts) when is_function(fun), do: fun.(changeset, opts)
 
   defp message(opts, key \\ :message, default) do
     Keyword.get(opts, key, default)
