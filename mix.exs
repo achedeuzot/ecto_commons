@@ -58,7 +58,7 @@ defmodule EctoCommons.MixProject do
       # Used by Luhn validator
       {:luhn, "~> 0.3.0"},
       # Used by phone number validator
-      {:ex_phone_number, "~> 0.2"},
+      {:ex_phone_number, "~> 0.4"},
 
       # Docs:
       {:ex_doc, "~> 0.21", only: :dev},
@@ -74,7 +74,7 @@ defmodule EctoCommons.MixProject do
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
 
       # Lint:
-      {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:credo_contrib, "~> 0.2.0", only: [:dev, :test], runtime: false}
     ]
   end
