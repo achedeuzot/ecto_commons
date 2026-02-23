@@ -23,83 +23,83 @@ defmodule EctoCommons.DateTimeValidator do
       iex> params = %{birthdate: ~U[2016-05-24 13:26:08Z]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_datetime(:birthdate)
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [], data: %{}, valid?: true, ...>
 
       # Using :is to ensure a date is identical to another date
       iex> types = %{birthdate: :utc_datetime}
       iex> params = %{birthdate: ~U[2016-05-24 13:26:08Z]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_datetime(:birthdate, is: ~U[2016-05-24 13:26:08Z])
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{birthdate: :utc_datetime}
       iex> params = %{birthdate: ~U[2016-05-24 13:26:08Z]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_datetime(:birthdate, is: ~U[2017-05-24 13:26:08Z])
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [birthdate: {"should be %{is}.", [validation: :datetime, kind: :is]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [birthdate: {"should be %{is}.", [validation: :datetime, kind: :is]}], data: %{}, valid?: false, ...>
 
       # Using :is with :delta to ensure a date is near another another date
       iex> types = %{birthdate: :utc_datetime}
       iex> params = %{birthdate: ~U[2016-05-24 13:26:08Z]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_datetime(:birthdate, is: ~U[2016-05-24 13:46:08Z], delta: 3600)
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{birthdate: :utc_datetime}
       iex> params = %{birthdate: ~U[2016-05-24 15:26:08Z]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_datetime(:birthdate, is: ~U[2016-05-24 13:26:08Z], delta: 3600)
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 15:26:08Z]}, errors: [birthdate: {"should be %{is}.", [validation: :datetime, kind: :is]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 15:26:08Z]}, errors: [birthdate: {"should be %{is}.", [validation: :datetime, kind: :is]}], data: %{}, valid?: false, ...>
 
       # Using :before to ensure date is before given date
       iex> types = %{birthdate: :utc_datetime}
       iex> params = %{birthdate: ~U[2016-05-24 13:26:08Z]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_datetime(:birthdate, before: ~U[2017-05-24 00:00:00Z])
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{birthdate: :utc_datetime}
       iex> params = %{birthdate: ~U[2016-05-24 13:26:08Z]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_datetime(:birthdate, before: ~U[2015-05-24 00:00:00Z])
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [birthdate: {"should be before %{before}.", [validation: :datetime, kind: :before]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [birthdate: {"should be before %{before}.", [validation: :datetime, kind: :before]}], data: %{}, valid?: false, ...>
 
       iex> types = %{birthdate: :utc_datetime}
       iex> params = %{birthdate: ~U[2016-05-24 13:26:08Z]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_datetime(:birthdate, before: :utc_now)
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{birthdate: :utc_datetime}
       iex> params = %{birthdate: ~U[3000-05-24 13:26:08Z]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_datetime(:birthdate, before: :utc_now)
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[3000-05-24 13:26:08Z]}, errors: [birthdate: {"should be before %{before}.", [validation: :datetime, kind: :before]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[3000-05-24 13:26:08Z]}, errors: [birthdate: {"should be before %{before}.", [validation: :datetime, kind: :before]}], data: %{}, valid?: false, ...>
 
       # Using :after to ensure date is after given date
       iex> types = %{birthdate: :utc_datetime}
       iex> params = %{birthdate: ~U[2016-05-24 13:26:08Z]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_datetime(:birthdate, after: ~U[2015-05-24 00:00:00Z])
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{birthdate: :utc_datetime}
       iex> params = %{birthdate: ~U[2016-05-24 13:26:08Z]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_datetime(:birthdate, after: ~U[2017-05-24 00:00:00Z])
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [birthdate: {"should be after %{after}.", [validation: :datetime, kind: :after]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[2016-05-24 13:26:08Z]}, errors: [birthdate: {"should be after %{after}.", [validation: :datetime, kind: :after]}], data: %{}, valid?: false, ...>
 
       iex> types = %{birthdate: :utc_datetime}
       iex> params = %{birthdate: ~U[3000-05-24 13:26:08Z]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_datetime(:birthdate, after: :utc_now)
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[3000-05-24 13:26:08Z]}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[3000-05-24 13:26:08Z]}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{birthdate: :utc_datetime}
       iex> params = %{birthdate: ~U[1000-05-24 13:26:08Z]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_datetime(:birthdate, after: :utc_now)
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[1000-05-24 13:26:08Z]}, errors: [birthdate: {"should be after %{after}.", [validation: :datetime, kind: :after]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~U[1000-05-24 13:26:08Z]}, errors: [birthdate: {"should be after %{after}.", [validation: :datetime, kind: :after]}], data: %{}, valid?: false, ...>
 
   """
 

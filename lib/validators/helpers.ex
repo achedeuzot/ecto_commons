@@ -20,7 +20,7 @@ defmodule EctoCommons.Helpers do
       ...>   min: 2,
       ...>   max: 20
       ...> )
-      #Ecto.Changeset<action: nil, changes: %{first_name: "John", last_name: "Doe"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{first_name: "John", last_name: "Doe"}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{first_name: :string, last_name: :string}
       iex> params = %{first_name: "J", last_name: "DoppelgängerDoppelgänger"}
@@ -32,7 +32,7 @@ defmodule EctoCommons.Helpers do
       ...>   max: 20,
       ...>   message: "this field is invalid"
       ...> )
-      #Ecto.Changeset<action: nil, changes: %{first_name: \"J\", last_name: \"DoppelgängerDoppelgänger\"}, errors: [last_name: {\"this field is invalid\", [count: 20, validation: :length, kind: :max, type: :string]}, first_name: {\"this field is invalid\", [count: 2, validation: :length, kind: :min, type: :string]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{first_name: \"J\", last_name: \"DoppelgängerDoppelgänger\"}, errors: [last_name: {\"this field is invalid\", [count: 20, validation: :length, kind: :max, type: :string]}, first_name: {\"this field is invalid\", [count: 2, validation: :length, kind: :min, type: :string]}], data: %{}, valid?: false, ...>
   """
   def validate_many(changeset, fields, validator, opts \\ []) when is_list(fields) do
     Enum.reduce(fields, changeset, fn field, changeset ->

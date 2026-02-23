@@ -16,25 +16,25 @@ defmodule EctoCommons.LuhnValidator do
       iex> params = %{admin_code: "740123450"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_luhn(:admin_code)
-      #Ecto.Changeset<action: nil, changes: %{admin_code: "740123450"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{admin_code: "740123450"}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{admin_id: :string}
       iex> params = %{admin_id: "74012345123456"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_luhn(:admin_id)
-      #Ecto.Changeset<action: nil, changes: %{admin_id: "74012345123456"}, errors: [admin_id: {"is not a valid code", [validation: :luhn]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{admin_id: "74012345123456"}, errors: [admin_id: {"is not a valid code", [validation: :luhn]}], data: %{}, valid?: false, ...>
 
       iex> types = %{admin_code: :string}
       iex> params = %{admin_code: "7A0123450"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_luhn(:admin_code, transformer: &(String.replace(&1, "7A", "74")))
-      #Ecto.Changeset<action: nil, changes: %{admin_code: "7A0123450"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{admin_code: "7A0123450"}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{admin_id: :string}
       iex> params = %{admin_id: "this is an incorrect value"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_luhn(:admin_id)
-      #Ecto.Changeset<action: nil, changes: %{admin_id: "this is an incorrect value"}, errors: [admin_id: {"is not a valid code", [validation: :luhn]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{admin_id: "this is an incorrect value"}, errors: [admin_id: {"is not a valid code", [validation: :luhn]}], data: %{}, valid?: false, ...>
   """
   import Ecto.Changeset
 

@@ -23,59 +23,59 @@ defmodule EctoCommons.TimeValidator do
       iex> params = %{meeting_start: ~T[12:01:01]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_time(:meeting_start)
-      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[12:01:01]}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[12:01:01]}, errors: [], data: %{}, valid?: true, ...>
 
       # Using :is to ensure a time is identical to another time
       iex> types = %{meeting_start: :time}
       iex> params = %{meeting_start: ~T[12:01:01]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_time(:meeting_start, is: ~T[12:01:01])
-      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[12:01:01]}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[12:01:01]}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{meeting_start: :time}
       iex> params = %{meeting_start: ~T[12:01:01]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_time(:meeting_start, is: ~T[13:01:01])
-      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[12:01:01]}, errors: [meeting_start: {"should be %{is}.", [validation: :time, kind: :is]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[12:01:01]}, errors: [meeting_start: {"should be %{is}.", [validation: :time, kind: :is]}], data: %{}, valid?: false, ...>
 
       # Using :is with :delta to ensure a time is near another another time
       iex> types = %{meeting_start: :time}
       iex> params = %{meeting_start: ~T[12:01:01]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_time(:meeting_start, is: ~T[12:15:01], delta: 900)
-      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[12:01:01]}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[12:01:01]}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{meeting_start: :time}
       iex> params = %{meeting_start: ~T[13:01:01]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_time(:meeting_start, is: ~T[12:01:01], delta: 900)
-      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[13:01:01]}, errors: [meeting_start: {"should be %{is}.", [validation: :time, kind: :is]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[13:01:01]}, errors: [meeting_start: {"should be %{is}.", [validation: :time, kind: :is]}], data: %{}, valid?: false, ...>
 
       # Using :before to ensure time is before given time
       iex> types = %{meeting_start: :time}
       iex> params = %{meeting_start: ~T[12:01:01]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_time(:meeting_start, before: ~T[13:01:01])
-      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[12:01:01]}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[12:01:01]}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{meeting_start: :time}
       iex> params = %{meeting_start: ~T[12:01:01]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_time(:meeting_start, before: ~T[11:01:01])
-      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[12:01:01]}, errors: [meeting_start: {"should be before %{before}.", [validation: :time, kind: :before]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[12:01:01]}, errors: [meeting_start: {"should be before %{before}.", [validation: :time, kind: :before]}], data: %{}, valid?: false, ...>
 
       # Using :after to ensure time is after given time
       iex> types = %{meeting_start: :time}
       iex> params = %{meeting_start: ~T[12:01:01]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_time(:meeting_start, after: ~T[11:01:01])
-      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[12:01:01]}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[12:01:01]}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{meeting_start: :time}
       iex> params = %{meeting_start: ~T[12:01:01]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_time(:meeting_start, after: ~T[13:01:01])
-      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[12:01:01]}, errors: [meeting_start: {"should be after %{after}.", [validation: :time, kind: :after]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{meeting_start: ~T[12:01:01]}, errors: [meeting_start: {"should be after %{after}.", [validation: :time, kind: :after]}], data: %{}, valid?: false, ...>
 
   """
 

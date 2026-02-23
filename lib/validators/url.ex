@@ -24,25 +24,25 @@ defmodule EctoCommons.URLValidator do
       iex> params = %{url: "https://www.example.com/"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_url(:url)
-      #Ecto.Changeset<action: nil, changes: %{url: "https://www.example.com/"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{url: "https://www.example.com/"}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{url: :string}
       iex> params = %{url: "https://www.example.com/"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_url(:url, checks: [:empty, :path, :scheme, :host])
-      #Ecto.Changeset<action: nil, changes: %{url: "https://www.example.com/"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{url: "https://www.example.com/"}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{url: :string}
       iex> params = %{url: "some@invalid_url"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_url(:url)
-      #Ecto.Changeset<action: nil, changes: %{url: "some@invalid_url"}, errors: [url: {"is not a valid url", [validation: :url]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{url: "some@invalid_url"}, errors: [url: {"is not a valid url", [validation: :url]}], data: %{}, valid?: false, ...>
 
       iex> types = %{url: :string}
       iex> params = %{url: "Just some random text"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_url(:url)
-      #Ecto.Changeset<action: nil, changes: %{url: "Just some random text"}, errors: [url: {"is not a valid url", [validation: :url]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{url: "Just some random text"}, errors: [url: {"is not a valid url", [validation: :url]}], data: %{}, valid?: false, ...>
 
   """
 
