@@ -67,11 +67,13 @@ defmodule EctoCommons.PostalCodeValidator do
 
   @postal_codes_data
   |> Enum.each(fn country_data ->
-    [isoalpha2, regex] = String.split(country_data, ";", parts: 2)
+    [isoalpha2, regex_string] = String.split(country_data, ";", parts: 2)
     argument = String.downcase(isoalpha2)
-    {:ok, regex} = Regex.compile("^" <> regex <> "$")
+    regex_string = "^" <> regex_string <> "$"
 
-    def get_regexp(unquote(argument), _opts), do: unquote(Macro.escape(regex))
+    def get_regexp(unquote(argument), _opts) do
+      Regex.compile!(unquote(regex_string))
+    end
   end)
 
   def get_regexp(_unknown, opts) do
