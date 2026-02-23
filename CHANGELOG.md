@@ -2,6 +2,11 @@
 
 ## Upcoming
 
+## Version 0.3.7
+- Dropped elixir 1.13 support. Minimum supported version is now 1.14.
+- Fixed compilation error on OTP 28
+- Updated deps to latest version as of February 2026.
+
 ## Version 0.3.6
 - Made `Burnex` an optional dependency.
 - Fixed `validate_postal_code` not to crash if unknown country code
