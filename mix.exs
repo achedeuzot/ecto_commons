@@ -1,7 +1,7 @@
 defmodule EctoCommons.MixProject do
   use Mix.Project
 
-  @version "0.3.6"
+  @version "0.3.7"
 
   def project do
     [
@@ -12,7 +12,7 @@ defmodule EctoCommons.MixProject do
       source_url: "https://github.com/achedeuzot/ecto_commons",
       homepage_url: "http://hexdocs.pm/ecto_commons",
       package: package(),
-      elixir: "~> 1.13",
+      elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),
       docs: docs(),
@@ -58,7 +58,7 @@ defmodule EctoCommons.MixProject do
       # Used by Luhn validator
       {:luhn, "~> 0.3.0"},
       # Used by phone number validator
-      {:ex_phone_number, "~> 0.2"},
+      {:ex_phone_number, "~> 0.4"},
 
       # Docs:
       {:ex_doc, "~> 0.21", only: :dev},
