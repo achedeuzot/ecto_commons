@@ -17,26 +17,26 @@ defmodule EctoCommons.PhoneNumberValidator do
       iex> params = %{phone_number: "0610234567"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_phone_number(:phone_number, country: "fr")
-      #Ecto.Changeset<action: nil, changes: %{phone_number: "0610234567"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{phone_number: "0610234567"}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{phone_number: :string}
       iex> params = %{phone_number: "798765432L"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_phone_number(:phone_number, country: "ch")
-      #Ecto.Changeset<action: nil, changes: %{phone_number: "798765432L"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{phone_number: "798765432L"}, errors: [], data: %{}, valid?: true, ...>
 
       # Country can be ignored in E164 formatted numbers
       iex> types = %{phone_number: :string}
       iex> params = %{phone_number: "+16502530000"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_phone_number(:phone_number)
-      #Ecto.Changeset<action: nil, changes: %{phone_number: "+16502530000"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{phone_number: "+16502530000"}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{phone_number: :string}
       iex> params = %{phone_number: "01 23 45 67 89"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_phone_number(:phone_number, country: nil)
-      #Ecto.Changeset<action: nil, changes: %{phone_number: "01 23 45 67 89"}, errors: [phone_number: {\"is not a valid phone number\", [validation: :phone_number]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{phone_number: "01 23 45 67 89"}, errors: [phone_number: {\"is not a valid phone number\", [validation: :phone_number]}], data: %{}, valid?: false, ...>
   """
 
   import Ecto.Changeset

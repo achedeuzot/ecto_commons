@@ -14,35 +14,35 @@ defmodule EctoCommons.StringValidator do
       iex> params = %{token: "private|some-random-string-id"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_has_prefix(:token, prefix: "private")
-      #Ecto.Changeset<action: nil, changes: %{token: "private|some-random-string-id"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{token: "private|some-random-string-id"}, errors: [], data: %{}, valid?: true, ...>
 
       # Prefix with separator
       iex> types = %{token: :string}
       iex> params = %{token: "private|some-random-string-id"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_has_prefix(:token, prefix: "private", separator: "|")
-      #Ecto.Changeset<action: nil, changes: %{token: "private|some-random-string-id"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{token: "private|some-random-string-id"}, errors: [], data: %{}, valid?: true, ...>
 
       # Wrong prefix
       iex> types = %{token: :string}
       iex> params = %{token: "private|some-random-string-id"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_has_prefix(:token, prefix: "provider")
-      #Ecto.Changeset<action: nil, changes: %{token: "private|some-random-string-id"}, errors: [token: {"is not prefixed by %{prefix}.", [validation: :has_prefix]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{token: "private|some-random-string-id"}, errors: [token: {"is not prefixed by %{prefix}.", [validation: :has_prefix]}], data: %{}, valid?: false, ...>
 
       # Correct prefix but wrong separator
       iex> types = %{token: :string}
       iex> params = %{token: "private|some-random-string-id"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_has_prefix(:token, prefix: "private", separator: "_")
-      #Ecto.Changeset<action: nil, changes: %{token: "private|some-random-string-id"}, errors: [token: {"is not prefixed by %{prefix}.", [validation: :has_prefix]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{token: "private|some-random-string-id"}, errors: [token: {"is not prefixed by %{prefix}.", [validation: :has_prefix]}], data: %{}, valid?: false, ...>
 
       # Dynamic prefix from function which is correct
       iex> types = %{token: :string}
       iex> params = %{token: "private|some-random-string-id"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_has_prefix(:token, prefix: fn _chgst, _opts -> "private" end)
-      #Ecto.Changeset<action: nil, changes: %{token: "private|some-random-string-id"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{token: "private|some-random-string-id"}, errors: [], data: %{}, valid?: true, ...>
 
       # Dynamic prefix from another changeset field
       iex> types = %{token: :string, provider: :string}
@@ -61,14 +61,14 @@ defmodule EctoCommons.StringValidator do
       iex> params = %{token: "some-random-string-id", provider: nil}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_has_prefix(:token, prefix: fn chgst, _opts -> Ecto.Changeset.get_field(chgst, :provider) end)
-      #Ecto.Changeset<action: nil, changes: %{token: "some-random-string-id"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{token: "some-random-string-id"}, errors: [], data: %{}, valid?: true, ...>
 
       # Dynamic prefix from function, which fails
       iex> types = %{token: :string}
       iex> params = %{token: "private|some-random-string-id"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_has_prefix(:token, prefix: fn _chgst, _opts -> "test" end)
-      #Ecto.Changeset<action: nil, changes: %{token: "private|some-random-string-id"}, errors: [token: {"is not prefixed by %{prefix}.", [validation: :has_prefix]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{token: "private|some-random-string-id"}, errors: [token: {"is not prefixed by %{prefix}.", [validation: :has_prefix]}], data: %{}, valid?: false, ...>
 
   """
 

@@ -23,33 +23,33 @@ defmodule EctoCommons.DateValidator do
       iex> params = %{birthdate: ~D[2016-05-24]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_date(:birthdate)
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [], data: %{}, valid?: true, ...>
 
       # Using :is to ensure a date is identical to another date
       iex> types = %{birthdate: :date}
       iex> params = %{birthdate: ~D[2016-05-24]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_date(:birthdate, is: ~D[2016-05-24])
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{birthdate: :date}
       iex> params = %{birthdate: ~D[2016-05-24]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_date(:birthdate, is: ~D[2017-05-24])
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [birthdate: {"should be %{is}.", [validation: :date, kind: :is, is: ~D[2017-05-24]]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [birthdate: {"should be %{is}.", [validation: :date, kind: :is, is: ~D[2017-05-24]]}], data: %{}, valid?: false, ...>
 
       # Using :is with :delta to ensure a date is near another another date
       iex> types = %{birthdate: :date}
       iex> params = %{birthdate: ~D[2016-05-20]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_date(:birthdate, is: ~D[2016-05-24], delta: 7)
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-20]}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-20]}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{birthdate: :date}
       iex> params = %{birthdate: ~D[2016-04-24]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_date(:birthdate, is: ~D[2016-05-24], delta: 7)
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-04-24]}, errors: [birthdate: {"should be %{is}.", [validation: :date, kind: :is, is: ~D[2016-05-24]]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-04-24]}, errors: [birthdate: {"should be %{is}.", [validation: :date, kind: :is, is: ~D[2016-05-24]]}], data: %{}, valid?: false, ...>
 
       # Using :is with a function to allow for dynamic date comparison
       iex> types = %{start: :date, finish: :date}
@@ -71,13 +71,13 @@ defmodule EctoCommons.DateValidator do
       iex> params = %{birthdate: ~D[2016-05-24]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_date(:birthdate, before: ~D[2017-05-24])
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{birthdate: :date}
       iex> params = %{birthdate: ~D[2016-05-24]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_date(:birthdate, before: ~D[2015-05-24])
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [birthdate: {"should be before %{before}.", [validation: :date, kind: :before, before: ~D[2015-05-24]]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [birthdate: {"should be before %{before}.", [validation: :date, kind: :before, before: ~D[2015-05-24]]}], data: %{}, valid?: false, ...>
 
       # Using :before with a function to allow for dynamic date comparison
       iex> types = %{start: :date, finish: :date}
@@ -99,13 +99,13 @@ defmodule EctoCommons.DateValidator do
       iex> params = %{birthdate: ~D[2016-05-24]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_date(:birthdate, after: ~D[2015-05-24])
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{birthdate: :date}
       iex> params = %{birthdate: ~D[2016-05-24]}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_date(:birthdate, after: ~D[2017-05-24])
-      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [birthdate: {"should be after %{after}.", [validation: :date, kind: :after, after: ~D[2017-05-24]]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{birthdate: ~D[2016-05-24]}, errors: [birthdate: {"should be after %{after}.", [validation: :date, kind: :after, after: ~D[2017-05-24]]}], data: %{}, valid?: false, ...>
 
       iex> types = %{start: :date, finish: :date}
       iex> params = %{start: ~D[2000-01-01], finish: ~D[2000-01-31]}

@@ -47,25 +47,25 @@ defmodule EctoCommons.EmailValidator do
       iex> params = %{email: "valid.email@example.com"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_email(:email)
-      #Ecto.Changeset<action: nil, changes: %{email: "valid.email@example.com"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{email: "valid.email@example.com"}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{email: :string}
       iex> params = %{email: "@invalid_email"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_email(:email)
-      #Ecto.Changeset<action: nil, changes: %{email: "@invalid_email"}, errors: [email: {"is not a valid email", [validation: :email]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{email: "@invalid_email"}, errors: [email: {"is not a valid email", [validation: :email]}], data: %{}, valid?: false, ...>
 
       iex> types = %{email: :string}
       iex> params = %{email: "uses_a_forbidden_provider@yopmail.net"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_email(:email, checks: [:html_input, :burner])
-      #Ecto.Changeset<action: nil, changes: %{email: "uses_a_forbidden_provider@yopmail.net"}, errors: [email: {"uses a forbidden provider", [validation: :email]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{email: "uses_a_forbidden_provider@yopmail.net"}, errors: [email: {"uses a forbidden provider", [validation: :email]}], data: %{}, valid?: false, ...>
 
       iex> types = %{email: :string}
       iex> params = %{email: "uses_a_forbidden_provider@yopmail.net"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_email(:email, checks: [:html_input, :pow])
-      #Ecto.Changeset<action: nil, changes: %{email: "uses_a_forbidden_provider@yopmail.net"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{email: "uses_a_forbidden_provider@yopmail.net"}, errors: [], data: %{}, valid?: true, ...>
 
   """
 

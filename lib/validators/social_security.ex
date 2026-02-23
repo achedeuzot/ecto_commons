@@ -9,32 +9,32 @@ defmodule EctoCommons.SocialSecurityValidator do
       iex> params = %{admin_id: "188037424305025"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_social_security(:admin_id, country: "fr")
-      #Ecto.Changeset<action: nil, changes: %{admin_id: "188037424305025"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{admin_id: "188037424305025"}, errors: [], data: %{}, valid?: true, ...>
 
       # Also works for temporary french social security numbers and special edge cases (corsica)
       iex> types = %{admin_id: :string}
       iex> params = %{admin_id: "7 56 50 2B 233 042 82"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_social_security(:admin_id, country: "fr")
-      #Ecto.Changeset<action: nil, changes: %{admin_id: "7 56 50 2B 233 042 82"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{admin_id: "7 56 50 2B 233 042 82"}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{admin_id: :string}
       iex> params = %{admin_id: "8 12 50 97 307 437 59"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_social_security(:admin_id, country: "fr")
-      #Ecto.Changeset<action: nil, changes: %{admin_id: "8 12 50 97 307 437 59"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{admin_id: "8 12 50 97 307 437 59"}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{admin_id: :string}
       iex> params = %{admin_id: "1 88 03 74 243 050 57"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_social_security(:admin_id, country: "fr")
-      #Ecto.Changeset<action: nil, changes: %{admin_id: "1 88 03 74 243 050 57"}, errors: [admin_id: {"is not a valid social security number", [validation: :social_security]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{admin_id: "1 88 03 74 243 050 57"}, errors: [admin_id: {"is not a valid social security number", [validation: :social_security]}], data: %{}, valid?: false, ...>
 
       iex> types = %{admin_id: :string}
       iex> params = %{admin_id: "this is an incorrect value"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_social_security(:admin_id, country: "fr")
-      #Ecto.Changeset<action: nil, changes: %{admin_id: "this is an incorrect value"}, errors: [admin_id: {"is not a valid social security number", [validation: :social_security]}], data: %{}, valid?: false>
+      #Ecto.Changeset<action: nil, changes: %{admin_id: "this is an incorrect value"}, errors: [admin_id: {"is not a valid social security number", [validation: :social_security]}], data: %{}, valid?: false, ...>
   """
   import Ecto.Changeset
 

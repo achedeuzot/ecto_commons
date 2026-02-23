@@ -12,31 +12,31 @@ defmodule EctoCommons.PostalCodeValidator do
       iex> params = %{postal_code: "69001"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_postal_code(:postal_code, country: "fr")
-      #Ecto.Changeset<action: nil, changes: %{postal_code: "69001"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{postal_code: "69001"}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{postal_code: :string}
       iex> params = %{postal_code: "1120"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_postal_code(:postal_code, country: "be")
-      #Ecto.Changeset<action: nil, changes: %{postal_code: "1120"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{postal_code: "1120"}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{postal_code: :string}
       iex> params = %{postal_code: "00199"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_postal_code(:postal_code, country: "it")
-      #Ecto.Changeset<action: nil, changes: %{postal_code: "00199"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{postal_code: "00199"}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{postal_code: :string}
       iex> params = %{postal_code: "28010"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_postal_code(:postal_code, country: "es")
-      #Ecto.Changeset<action: nil, changes: %{postal_code: "28010"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{postal_code: "28010"}, errors: [], data: %{}, valid?: true, ...>
 
       iex> types = %{postal_code: :string}
       iex> params = %{postal_code: "1211"}
       iex> Ecto.Changeset.cast({%{}, types}, params, Map.keys(types))
       ...> |> validate_postal_code(:postal_code, country: "ch")
-      #Ecto.Changeset<action: nil, changes: %{postal_code: "1211"}, errors: [], data: %{}, valid?: true>
+      #Ecto.Changeset<action: nil, changes: %{postal_code: "1211"}, errors: [], data: %{}, valid?: true, ...>
   """
 
   import Ecto.Changeset
