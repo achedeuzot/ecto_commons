@@ -102,7 +102,7 @@ defmodule EctoCommons.TimeValidator do
   defp wrong_time(%Time{} = value, is, nil, opts) do
     case Time.compare(value, is) do
       :eq -> nil
-      _ -> {message(opts, "should be %{is}."), validation: :time, kind: :is}
+      _ -> {message(opts, :message, "should be %{is}."), validation: :time, kind: :is}
     end
   end
 
@@ -114,7 +114,7 @@ defmodule EctoCommons.TimeValidator do
       _ ->
         case abs(Time.diff(value, is)) do
           val when val > delta ->
-            {message(opts, "should be %{is}."), validation: :time, kind: :is}
+            {message(opts, :message, "should be %{is}."), validation: :time, kind: :is}
 
           _ ->
             nil
@@ -127,7 +127,7 @@ defmodule EctoCommons.TimeValidator do
   defp too_soon(%Time{} = value, afterr, opts) do
     case Time.compare(value, afterr) do
       :gt -> nil
-      _ -> {message(opts, "should be after %{after}."), validation: :time, kind: :after}
+      _ -> {message(opts, :message, "should be after %{after}."), validation: :time, kind: :after}
     end
   end
 
@@ -136,7 +136,7 @@ defmodule EctoCommons.TimeValidator do
   defp too_late(%Time{} = value, before, opts) do
     case Time.compare(value, before) do
       :lt -> nil
-      _ -> {message(opts, "should be before %{before}."), validation: :time, kind: :before}
+      _ -> {message(opts, :message, "should be before %{before}."), validation: :time, kind: :before}
     end
   end
 

@@ -60,7 +60,7 @@ defmodule EctoCommons.PostalCodeValidator do
           []
 
         false ->
-          [{field, {message(opts, "is not a valid postal code"), [validation: :postal_code]}}]
+          [{field, {message(opts, :message, "is not a valid postal code"), [validation: :postal_code]}}]
       end
     end)
   end

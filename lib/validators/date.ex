@@ -146,7 +146,7 @@ defmodule EctoCommons.DateValidator do
   defp wrong_date(%Date{} = value, is, nil, opts) do
     case Date.compare(value, is) do
       :eq -> nil
-      _ -> {message(opts, "should be %{is}."), validation: :date, kind: :is, is: is}
+      _ -> {message(opts, :message, "should be %{is}."), validation: :date, kind: :is, is: is}
     end
   end
 
@@ -158,7 +158,7 @@ defmodule EctoCommons.DateValidator do
       _ ->
         case abs(Date.diff(value, is)) do
           val when val > delta ->
-            {message(opts, "should be %{is}."), validation: :date, kind: :is, is: is}
+            {message(opts, :message, "should be %{is}."), validation: :date, kind: :is, is: is}
 
           _ ->
             nil
@@ -171,7 +171,7 @@ defmodule EctoCommons.DateValidator do
   defp too_soon(%Date{} = value, afterr, opts) do
     case Date.compare(value, afterr) do
       :gt -> nil
-      _ -> {message(opts, "should be after %{after}."), validation: :date, kind: :after, after: afterr}
+      _ -> {message(opts, :message, "should be after %{after}."), validation: :date, kind: :after, after: afterr}
     end
   end
 
@@ -180,7 +180,7 @@ defmodule EctoCommons.DateValidator do
   defp too_late(%Date{} = value, before, opts) do
     case Date.compare(value, before) do
       :lt -> nil
-      _ -> {message(opts, "should be before %{before}."), validation: :date, kind: :before, before: before}
+      _ -> {message(opts, :message, "should be before %{before}."), validation: :date, kind: :before, before: before}
     end
   end
 

@@ -85,7 +85,7 @@ defmodule EctoCommons.EmailValidator do
       Enum.reduce(checks, [], fn check, errors ->
         case do_validate_email(value, check) do
           :ok -> errors
-          {:error, msg} -> [{field, {message(opts, msg), [validation: :email]}} | errors]
+          {:error, msg} -> [{field, {message(opts, :message, msg), [validation: :email]}} | errors]
         end
       end)
       |> List.flatten()

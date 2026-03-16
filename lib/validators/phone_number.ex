@@ -51,7 +51,7 @@ defmodule EctoCommons.PhoneNumberValidator do
         []
       else
         _err ->
-          [{field, {message(opts, "is not a valid phone number"), [validation: :phone_number]}}]
+          [{field, {message(opts, :message, "is not a valid phone number"), [validation: :phone_number]}}]
       end
     end)
   end
